@@ -1,0 +1,21 @@
+<div class="min-h-screen flex bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white p-4">
+    <h1 class="text-xl font-semibold">Admin</h1>
+
+     <nav class="my-3">
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="bg-slate-800 font-semibold"
+        class="block px-3 py-2 rounded hover:bg-slate-800"
+      >
+        Dashboard
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 p-6">
+    <router-outlet></router-outlet>
+  </main>
+</div>
