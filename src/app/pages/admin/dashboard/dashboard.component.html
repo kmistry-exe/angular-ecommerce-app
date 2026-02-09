@@ -1,6 +1,27 @@
-<h1 class="text-2xl font-bold mb-4">
-    Dashboard
-</h1>
-<p class="text-gray-600">
-    Welcome to the Admin Dashboard
-</p>
+<section class="p-6 space-y-6">
+  <!-- Page Header -->
+  <div>
+    <h1 class="text-2xl font-semibold">Dashboard</h1>
+    <p class="text-sm text-gray-500">Overview of store performance</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+      *ngFor="let stat of stats"
+      class="rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <p class="text-sm text-gray-500">{{ stat.label }}</p>
+      <p class="mt-2 text-2xl font-semibold">
+        {{ stat.prefix ?? "" }}{{ stat.value }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Content (empty for now) -->
+  <div
+    class="h-64 rounded-lg border border-dashed flex items-center justify-center text-gray-400"
+  >
+    Charts & tables coming next
+  </div>
+</section>
