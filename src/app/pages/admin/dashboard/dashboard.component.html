@@ -7,23 +7,16 @@
 
   <!-- Stats -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <app-stat-card
-      *ngFor="let stat of stats"
-      [label]="stat.label"
-      [value]="stat.value"
-      [prefix]="stat.prefix"
-    />
+    <app-stat-card *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value" [prefix]="stat.prefix" />
   </div>
 
   <!-- Main Dashboard Content -->
-  <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Charts Area -->
-    <div class="lg:col-span-2 rounded-xl border bg-white p-4">
+    <div class="lg:col-span-1 rounded-xl border bg-white p-4">
       <h2 class="text-lg font-medium mb-4">Sales Overview</h2>
 
-      <div
-        class="h-80"
-      >
+      <div class="h-80">
         <app-dashboard-chart></app-dashboard-chart>
       </div>
     </div>
@@ -32,10 +25,8 @@
     <div class="rounded-xl border bg-white p-4">
       <h2 class="text-lg font-medium mb-4">Recent Orders</h2>
 
-      <div
-        class="h-64 border border-dashed rounded-lg flex items-center justify-center text-sm text-gray-400"
-      >
-        Table placeholder
+      <div class="h-80">
+        <app-dashboard-recent-orders></app-dashboard-recent-orders>
       </div>
     </div>
   </section>
