@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { StatCardComponent } from '../../../components/stat-card/stat-card.component';
+import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, StatCardComponent],
+  imports: [CommonModule, StatCardComponent, DashboardChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
