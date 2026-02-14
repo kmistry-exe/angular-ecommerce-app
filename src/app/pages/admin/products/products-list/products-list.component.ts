@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface Product {
   id: number;
@@ -18,6 +18,7 @@ interface Product {
   styleUrl: './products-list.component.css'
 })
 export class ProductsListComponent {
+  constructor(private router: Router) { }
   products: Product[] = [
     { id: 1, name: 'iPhone 15', category: 'Electronics', price: 79999, stock: 25, status: 'Active' },
     { id: 2, name: 'Nike Air Max', category: 'Footwear', price: 5999, stock: 50, status: 'Active' },
@@ -27,5 +28,9 @@ export class ProductsListComponent {
 
   getStatusClass(status: string): string {
     return status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600';
+  }
+
+  onEdit(id: number) {
+    this.router.navigate(['/admin/products/edit', id]);
   }
 }
