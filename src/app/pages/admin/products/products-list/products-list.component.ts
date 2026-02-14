@@ -17,8 +17,13 @@ interface Product {
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'
 })
+
 export class ProductsListComponent {
   constructor(private router: Router) { }
+
+  showDeleteModal = false;
+  selectedProduct: any = null;
+
   products: Product[] = [
     { id: 1, name: 'iPhone 15', category: 'Electronics', price: 79999, stock: 25, status: 'Active' },
     { id: 2, name: 'Nike Air Max', category: 'Footwear', price: 5999, stock: 50, status: 'Active' },
@@ -32,5 +37,15 @@ export class ProductsListComponent {
 
   onEdit(id: number) {
     this.router.navigate(['/admin/products/edit', id]);
+  }
+
+  openDeleteModal(product: any): void {
+    this.selectedProduct = product;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.selectedProduct = null;
   }
 }
