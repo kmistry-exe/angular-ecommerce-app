@@ -56,7 +56,7 @@
                         <button class="text-blue-600 hover:underline text-sm" (click)="onEdit(product.id)">
                             Edit
                         </button>
-                        <button class="text-red-600 hover:underline text-sm">
+                        <button class="text-red-600 hover:underline text-sm" (click)="openDeleteModal(product)">
                             Delete
                         </button>
                     </td>
@@ -65,6 +65,36 @@
             </tbody>
 
         </table>
+
+        <!-- Delete Confirmation Modal -->
+        <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+
+                <h2 class="text-xl font-semibold mb-2">
+                    Delete Product
+                </h2>
+
+                <p class="text-gray-600 mb-6">
+                    Are you sure you want to delete
+                    <span class="font-medium">
+                        {{ selectedProduct?.name }}
+                    </span>?
+                    This action cannot be undone.
+                </p>
+
+                <div class="flex justify-end gap-3">
+                    <button type="button" (click)="closeDeleteModal()"
+                        class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                        Cancel
+                    </button>
+
+                    <button type="button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        Delete
+                    </button>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 </div>
