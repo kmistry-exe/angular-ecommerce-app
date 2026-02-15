@@ -1,12 +1,12 @@
 <div class="max-w-3xl mx-auto bg-white rounded-xl border p-6">
     <h1 class="text-2xl font-semibold mb-6">Add Product</h1>
 
-    <form class="space-y-6">
+    <form class="space-y-6" [formGroup]="productForm">
 
         <!-- Product Name -->
         <div>
             <label class="block text-sm font-medium mb-1">Product Name</label>
-            <input type="text"
+            <input type="text" formControlName="name"
                 class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                 placeholder="Enter product name" />
         </div>
@@ -14,7 +14,8 @@
         <!-- Category -->
         <div>
             <label class="block text-sm font-medium mb-1">Category</label>
-            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
+                formControlName="category">
                 <option>Electronics</option>
                 <option>Fashion</option>
                 <option>Home</option>
@@ -25,7 +26,7 @@
         <!-- Price -->
         <div>
             <label class="block text-sm font-medium mb-1">Price</label>
-            <input type="number"
+            <input type="number" formControlName="price"
                 class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                 placeholder="Enter price" />
         </div>
@@ -33,7 +34,7 @@
         <!-- Stock -->
         <div>
             <label class="block text-sm font-medium mb-1">Stock Quantity</label>
-            <input type="number"
+            <input type="number" formControlName="stock"
                 class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                 placeholder="Enter stock quantity" />
         </div>
@@ -41,7 +42,7 @@
         <!-- Description -->
         <div>
             <label class="block text-sm font-medium mb-1">Description</label>
-            <textarea rows="4"
+            <textarea rows="4" formControlName="description"
                 class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                 placeholder="Enter product description"></textarea>
         </div>
