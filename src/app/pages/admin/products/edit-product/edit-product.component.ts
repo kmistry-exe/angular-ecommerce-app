@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ProductService } from '../../../../core/services/product.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -10,18 +11,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './edit-product.component.css'
 })
 export class EditProductComponent {
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService) { }
 
   productId!: number;
   productForm!: FormGroup;
-
-  mockProduct = {
-    name: 'Sample Product',
-    category: 'Electronics',
-    price: 999,
-    stock: 25,
-    description: 'This is a sample product description'
-  };
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -34,8 +27,10 @@ export class EditProductComponent {
 
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
 
-    if (this.productId) {
-      this.productForm.patchValue(this.mockProduct);
+    const product = this.productService.getProductById(this.productId);
+
+    if (product) {
+      this.productForm.patchValue(product);
     }
   }
 }
