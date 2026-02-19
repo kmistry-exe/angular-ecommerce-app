@@ -19,7 +19,14 @@ export class ProductsListComponent implements OnInit {
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+      }
+    });
   }
 
   getStatusClass(status: string): string {
@@ -38,5 +45,26 @@ export class ProductsListComponent implements OnInit {
   closeDeleteModal(): void {
     this.showDeleteModal = false;
     this.selectedProduct = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.selectedProduct) {
+      console.error('No product selected for deletion');
+      return;
+    }
+
+    this.productService.deleteProduct(this.selectedProduct.id).subscribe({
+      next: () => {
+        console.log('Product deleted successfully');
+        this.products = this.products.filter(
+          p => p.id !== this.selectedProduct.id
+        );
+
+        this.closeDeleteModal();
+      },
+      error: (err) => {
+        console.error('Delete API Error:', err);
+      }
+    });
   }
 }

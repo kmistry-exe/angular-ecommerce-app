@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,62 +8,27 @@ import { Injectable } from '@angular/core';
 
 export class ProductService {
 
-  constructor() { }
+  private apiUrl = 'http://localhost:3000/products';
+  constructor(private http: HttpClient) { }
 
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'iPhone 14',
-      category: 'Electronics',
-      price: 999,
-      stock: 10,
-      description: 'Latest Apple smartphone',
-      status: 'Active'
-    },
-    {
-      id: 2,
-      name: 'Nike Shoes',
-      category: 'Fashion',
-      price: 120,
-      stock: 25,
-      description: 'Comfortable running shoes',
-      status: 'Active'
-    },
-    {
-      id: 3,
-      name: 'Office Chair',
-      category: 'Home',
-      price: 200,
-      stock: 15,
-      description: 'Ergonomic office chair',
-      status: 'Inactive'
-    }
-
-  ];
-
-  getProducts(): Product[] {
-    return this.products;
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  getProductById(id: number): Product | undefined {
-    return this.products.find(p => p.id === id);
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  addProduct(product: Product): void {
-    const newId = this.products.length ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
-    product.id = newId;
-    this.products.push(product);
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
-  updateProduct(product: Product): void {
-    const index = this.products.findIndex(p => p.id === product.id);
-    if (index !== -1) {
-      this.products[index] = product;
-    }
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product);
   }
 
-  deleteProduct(id: number): void {
-    this.products = this.products.filter(p => p.id !== id);
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
 

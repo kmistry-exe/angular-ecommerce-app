@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-product',
@@ -11,7 +12,7 @@ import { ProductService } from '../../../../core/services/product.service';
   styleUrl: './edit-product.component.css'
 })
 export class EditProductComponent {
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService, private router: Router) { }
 
   productId!: number;
   productForm!: FormGroup;
@@ -20,17 +21,56 @@ export class EditProductComponent {
     this.productForm = this.fb.group({
       name: [''],
       category: [''],
-      price: [''],
-      stock: [''],
+      price: [null],
+      stock: [null],
       description: ['']
     });
 
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    const productId = this.route.snapshot.paramMap.get('id');
 
-    const product = this.productService.getProductById(this.productId);
-
-    if (product) {
-      this.productForm.patchValue(product);
+    if (productId) {
+      this.productService.getProductById(+productId).subscribe({
+        next: (product) => {
+          console.log('Edit Product:', product);
+          this.productForm.patchValue(product);
+        },
+        error: (err) => {
+          console.error('Error loading product:', err);
+        }
+      });
     }
   }
+
+  onSubmit(): void {
+    if (this.productForm.invalid) {
+      return;
+    }
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      console.error('No product ID found');
+      return;
+    }
+
+    const updatedProduct = {
+      ...this.productForm.value,
+      id: +id,
+      status: 'Active'
+    };
+
+    this.productService.updateProduct(updatedProduct).subscribe({
+      next: () => {
+        console.log('Product updated successfully');
+        this.router.navigate(['/admin/products']);
+      },
+      error: (err) => {
+        console.error('Update Product Error:', err);
+      }
+    });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/admin/products']);
+  }
+
 }
