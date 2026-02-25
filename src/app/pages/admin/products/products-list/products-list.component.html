@@ -1,101 +1,128 @@
 <div class="space-y-6">
+  <!-- Page Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Products</h1>
 
-    <!-- Page Header -->
-    <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-semibold">Products</h1>
+    <a
+      routerLink="/admin/products/add"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700"
+    >
+      + Add Product
+    </a>
+  </div>
 
-        <a routerLink="/admin/products/add"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
-            + Add Product
-        </a>
-    </div>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-6">Loading products...</div>
 
-    <!-- Products Table Card -->
-    <div class="bg-white border rounded-xl p-4 overflow-x-auto">
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="text-center text-red-600 py-4">
+    {{ errorMessage }}
+  </div>
 
-        <table class="min-w-full text-sm text-left">
+  <!-- Empty State -->
+  <div
+    *ngIf="!isLoading && products.length === 0"
+    class="text-center py-6 text-gray-500"
+  >
+    No products found.
+  </div>
+  
+  <!-- Products Table Card -->
+  <div
+    *ngIf="!isLoading && products.length > 0"
+    class="bg-white border rounded-xl p-4 overflow-x-auto"
+  >
+    <table class="min-w-full text-sm text-left">
+      <thead class="text-xs uppercase text-gray-500 border-b">
+        <tr>
+          <th class="py-3">Name</th>
+          <th class="py-3">Category</th>
+          <th class="py-3 text-right">Price</th>
+          <th class="py-3 text-center">Stock</th>
+          <th class="py-3 text-center">Status</th>
+          <th class="py-3 text-right">Actions</th>
+        </tr>
+      </thead>
 
-            <thead class="text-xs uppercase text-gray-500 border-b">
-                <tr>
-                    <th class="py-3">Name</th>
-                    <th class="py-3">Category</th>
-                    <th class="py-3 text-right">Price</th>
-                    <th class="py-3 text-center">Stock</th>
-                    <th class="py-3 text-center">Status</th>
-                    <th class="py-3 text-right">Actions</th>
-                </tr>
-            </thead>
+      <tbody class="divide-y">
+        <tr
+          *ngFor="let product of products"
+          class="hover:bg-gray-50"
+          (click)="openDeleteModal(product)"
+        >
+          <td class="py-3 font-medium">
+            {{ product.name }}
+          </td>
 
-            <tbody class="divide-y">
-                <tr *ngFor="let product of products" class="hover:bg-gray-50" (click)="openDeleteModal(product)">
+          <td class="py-3">
+            {{ product.category }}
+          </td>
 
-                    <td class="py-3 font-medium">
-                        {{ product.name }}
-                    </td>
+          <td class="py-3 text-right">₹ {{ product.price | number }}</td>
 
-                    <td class="py-3">
-                        {{ product.category }}
-                    </td>
+          <td class="py-3 text-center">
+            {{ product.stock }}
+          </td>
 
-                    <td class="py-3 text-right">
-                        ₹ {{ product.price | number }}
-                    </td>
+          <td class="py-3 text-center">
+            <span
+              class="px-2 py-1 rounded-full text-xs font-medium"
+              [ngClass]="getStatusClass(product.status)"
+            >
+              {{ product.status }}
+            </span>
+          </td>
 
-                    <td class="py-3 text-center">
-                        {{ product.stock }}
-                    </td>
+          <td class="py-3 text-right space-x-2">
+            <button
+              class="text-blue-600 hover:underline text-sm"
+              (click)="onEdit(product.id)"
+            >
+              Edit
+            </button>
+            <button
+              class="text-red-600 hover:underline text-sm"
+              (click)="openDeleteModal(product)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-                    <td class="py-3 text-center">
-                        <span class="px-2 py-1 rounded-full text-xs font-medium"
-                            [ngClass]="getStatusClass(product.status)">
-                            {{ product.status }}
-                        </span>
-                    </td>
+    <!-- Delete Confirmation Modal -->
+    <div
+      *ngIf="showDeleteModal"
+      class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+        <h2 class="text-xl font-semibold mb-2">Delete Product</h2>
 
-                    <td class="py-3 text-right space-x-2">
-                        <button class="text-blue-600 hover:underline text-sm" (click)="onEdit(product.id)">
-                            Edit
-                        </button>
-                        <button class="text-red-600 hover:underline text-sm" (click)="openDeleteModal(product)">
-                            Delete
-                        </button>
-                    </td>
+        <p class="text-gray-600 mb-6">
+          Are you sure you want to delete
+          <span class="font-medium"> {{ selectedProduct?.name }} </span>? This
+          action cannot be undone.
+        </p>
 
-                </tr>
-            </tbody>
+        <div class="flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="closeDeleteModal()"
+            class="px-4 py-2 border rounded-lg hover:bg-gray-50"
+          >
+            Cancel
+          </button>
 
-        </table>
-
-        <!-- Delete Confirmation Modal -->
-        <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
-
-                <h2 class="text-xl font-semibold mb-2">
-                    Delete Product
-                </h2>
-
-                <p class="text-gray-600 mb-6">
-                    Are you sure you want to delete
-                    <span class="font-medium">
-                        {{ selectedProduct?.name }}
-                    </span>?
-                    This action cannot be undone.
-                </p>
-
-                <div class="flex justify-end gap-3">
-                    <button type="button" (click)="closeDeleteModal()"
-                        class="px-4 py-2 border rounded-lg hover:bg-gray-50">
-                        Cancel
-                    </button>
-
-                    <button type="button" (click)="confirmDelete()"
-                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                        Delete
-                    </button>
-                </div>
-
-            </div>
+          <button
+            type="button"
+            (click)="confirmDelete()"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          >
+            Delete
+          </button>
         </div>
-
+      </div>
     </div>
+  </div>
 </div>
