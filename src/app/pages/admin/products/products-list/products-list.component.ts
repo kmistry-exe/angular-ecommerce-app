@@ -13,18 +13,25 @@ import { Product, ProductService } from '../../../../core/services/product.servi
 export class ProductsListComponent implements OnInit {
   showDeleteModal = false;
   selectedProduct: any = null;
-
+  
   products: Product[] = [];
+
+  isLoading = false;
+  errorMessage: string = '';
 
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('API Error:', err);
+        this.errorMessage = 'Failed to load products';
+        this.isLoading = false;
       }
     });
   }
