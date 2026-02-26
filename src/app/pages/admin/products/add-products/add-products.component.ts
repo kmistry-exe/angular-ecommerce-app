@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
 
@@ -19,11 +19,11 @@ export class AddProductsComponent {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name: [''],
-      category: [''],
-      price: [null],
-      stock: [null],
-      description: ['']
+      name: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      price: [null, [Validators.required, Validators.min(1)]],
+      stock: [null, [Validators.required, Validators.min(0)]],
+      description: ['', [Validators.required]]
     });
   }
 
@@ -40,6 +40,14 @@ export class AddProductsComponent {
     this.productService.addProduct(productData).subscribe({
       next: () => {
         console.log('Product added successfully');
+
+        this.productForm.reset({
+          category: '',
+          price: null,
+          stock: null
+        });
+
+
         this.router.navigate(['/admin/products']);
       },
       error: (err) => {
