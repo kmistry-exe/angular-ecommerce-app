@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Router } from '@angular/router';
 
@@ -20,11 +20,11 @@ export class EditProductComponent {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name: [''],
-      category: [''],
-      price: [null],
-      stock: [null],
-      description: ['']
+      name: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      price: [null, [Validators.required, Validators.min(1)]],
+      stock: [null, [Validators.required, Validators.min(0)]],
+      description: ['', [Validators.required]]
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -47,6 +47,7 @@ export class EditProductComponent {
 
   onSubmit(): void {
     if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched();
       return;
     }
 
@@ -75,5 +76,9 @@ export class EditProductComponent {
 
   onCancel(): void {
     this.router.navigate(['/admin/products']);
+  }
+
+  get f() {
+    return this.productForm.controls;
   }
 }
