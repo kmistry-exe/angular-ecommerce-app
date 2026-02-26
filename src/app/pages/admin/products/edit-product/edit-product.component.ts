@@ -15,6 +15,7 @@ export class EditProductComponent {
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService, private router: Router) { }
 
   productId!: number;
+  originalProduct: any;
   productForm!: FormGroup;
 
   ngOnInit(): void {
@@ -26,12 +27,15 @@ export class EditProductComponent {
       description: ['']
     });
 
-    const productId = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    if (productId) {
-      this.productService.getProductById(+productId).subscribe({
+    if (id) {
+      this.productId = +id;
+
+      this.productService.getProductById(this.productId).subscribe({
         next: (product) => {
           console.log('Edit Product:', product);
+          this.originalProduct = product;
           this.productForm.patchValue(product);
         },
         error: (err) => {
@@ -53,9 +57,9 @@ export class EditProductComponent {
     }
 
     const updatedProduct = {
+      ...this.originalProduct,
       ...this.productForm.value,
-      id: +id,
-      status: 'Active'
+      id: this.productId,
     };
 
     this.productService.updateProduct(updatedProduct).subscribe({
@@ -72,5 +76,4 @@ export class EditProductComponent {
   onCancel(): void {
     this.router.navigate(['/admin/products']);
   }
-
 }

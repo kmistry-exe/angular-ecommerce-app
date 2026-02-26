@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
 
-
 @Component({
   selector: 'app-add-products',
   imports: [CommonModule, ReactiveFormsModule],
@@ -46,7 +45,6 @@ export class AddProductsComponent {
           price: null,
           stock: null
         });
-
 
         this.router.navigate(['/admin/products']);
       },
