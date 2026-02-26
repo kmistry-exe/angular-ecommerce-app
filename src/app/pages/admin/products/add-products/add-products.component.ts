@@ -28,6 +28,7 @@ export class AddProductsComponent {
 
   onSubmit(): void {
     if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched();
       return;
     }
 
@@ -56,5 +57,9 @@ export class AddProductsComponent {
 
   onCancel(): void {
     this.router.navigate(['/admin/products']);
+  }
+
+  get f() {
+    return this.productForm.controls;
   }
 }
