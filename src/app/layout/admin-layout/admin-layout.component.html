@@ -4,19 +4,38 @@
     <h1 class="text-xl font-semibold">Admin</h1>
 
     <nav class="my-3">
-      <a routerLink="/admin/dashboard" routerLinkActive="bg-slate-800 font-semibold"
-        class="block px-3 py-2 rounded hover:bg-slate-800">
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="bg-slate-800 font-semibold"
+        class="block px-3 py-2 rounded hover:bg-slate-800"
+      >
         Dashboard
       </a>
-      <a routerLink="/admin/products" routerLinkActive="bg-slate-800 font-semibold"
-        class="block px-3 py-2 rounded hover:bg-slate-800">
+      <a
+        routerLink="/admin/products"
+        routerLinkActive="bg-slate-800 font-semibold"
+        class="block px-3 py-2 rounded hover:bg-slate-800"
+      >
         Products
       </a>
     </nav>
   </aside>
 
   <!-- Main content -->
-  <main class="flex-1 p-6">
-    <router-outlet></router-outlet>
+  <main class="flex-1 flex flex-col">
+    <!-- Top Bar -->
+    <div class="flex justify-end items-center bg-white border-b px-6 py-3">
+      <button
+        (click)="logout()"
+        class="text-sm bg-red-600 text-white px-4 py-1.5 rounded-md hover:bg-red-700 transition"
+      >
+        Logout
+      </button>
+    </div>
+
+    <!-- Page Content -->
+    <div class="p-6">
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </div>
