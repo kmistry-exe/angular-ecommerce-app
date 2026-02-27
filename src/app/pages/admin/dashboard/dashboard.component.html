@@ -7,7 +7,21 @@
 
   <!-- Stats -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <app-stat-card *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value" [prefix]="stat.prefix" />
+    <ng-container *ngIf="!isLoading; else loadingStats">
+      <app-stat-card
+        *ngFor="let stat of stats"
+        [label]="stat.label"
+        [value]="stat.value"
+        [prefix]="stat.prefix"
+      />
+    </ng-container>
+
+    <!-- Loading State -->
+    <ng-template #loadingStats>
+      <div class="col-span-full text-center text-gray-500 py-6">
+        Loading analytics...
+      </div>
+    </ng-template>
   </div>
 
   <!-- Main Dashboard Content -->

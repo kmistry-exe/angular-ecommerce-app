@@ -5,5 +5,7 @@
     {{ label }}
   </p>
 
-  <p class="mt-2 text-2xl font-semibold">{{ prefix ?? "" }}{{ value }}</p>
+  <p class="mt-2 text-2xl font-semibold">
+    {{ prefix ?? "" }}{{ value | number }}
+  </p>
 </div>
