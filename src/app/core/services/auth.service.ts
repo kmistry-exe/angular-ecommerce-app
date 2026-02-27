@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-
+  private readonly TOKEN_KEY = 'admin_token';
   private readonly STORAGE_KEY = 'admin_logged_in';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   login(email: string, password: string): boolean {
     const validEmail = 'admin@angular.com';
@@ -17,6 +17,7 @@ export class AuthService {
 
     if (email === validEmail && password === validPassword) {
       localStorage.setItem(this.STORAGE_KEY, 'true');
+      localStorage.setItem(this.TOKEN_KEY, 'mock-admin-token');
       return true;
     }
 
@@ -25,10 +26,15 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.STORAGE_KEY);
+    localStorage.removeItem(this.TOKEN_KEY);
     this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
     return localStorage.getItem(this.STORAGE_KEY) === 'true';
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 }
