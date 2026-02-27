@@ -1,31 +1,139 @@
 {
   "products": [
     {
-      "name": "Laptop Pro",
-      "category": "Electronics",
-      "price": 76000,
-      "stock": 12,
-      "description": "High performance laptop",
       "id": 1,
+      "name": "Apple MacBook Air M2",
+      "category": "Electronics",
+      "price": 114900,
+      "stock": 18,
+      "description": "13-inch Apple MacBook Air with M2 chip and Retina display.",
       "status": "Active"
     },
     {
       "id": 2,
-      "name": "Running Shoes",
-      "category": "Fashion",
-      "price": 3200,
-      "stock": 45,
-      "description": "Comfortable sports shoes",
+      "name": "Samsung Galaxy S23",
+      "category": "Electronics",
+      "price": 74999,
+      "stock": 25,
+      "description": "Flagship Android smartphone with Snapdragon processor.",
       "status": "Active"
     },
     {
       "id": 3,
-      "name": "Office Chair",
+      "name": "Nike Air Zoom Pegasus 40",
+      "category": "Fashion",
+      "price": 9995,
+      "stock": 60,
+      "description": "Lightweight running shoes with responsive cushioning.",
+      "status": "Active"
+    },
+    {
+      "id": 4,
+      "name": "Adidas Ultraboost 23",
+      "category": "Fashion",
+      "price": 17999,
+      "stock": 35,
+      "description": "Premium comfort sneakers for everyday performance.",
+      "status": "Active"
+    },
+    {
+      "id": 5,
+      "name": "Sony WH-1000XM5 Headphones",
+      "category": "Electronics",
+      "price": 29990,
+      "stock": 22,
+      "description": "Industry-leading noise cancelling wireless headphones.",
+      "status": "Active"
+    },
+    {
+      "id": 6,
+      "name": "OnePlus 12",
+      "category": "Electronics",
+      "price": 64999,
+      "stock": 30,
+      "description": "High performance smartphone with AMOLED display.",
+      "status": "Active"
+    },
+    {
+      "id": 7,
+      "name": "IKEA Markus Office Chair",
       "category": "Home",
-      "price": 8500,
-      "stock": 20,
-      "description": "Ergonomic office chair",
+      "price": 12999,
+      "stock": 15,
+      "description": "Ergonomic office chair with lumbar support.",
+      "status": "Active"
+    },
+    {
+      "id": 8,
+      "name": "HP LaserJet Pro MFP",
+      "category": "Electronics",
+      "price": 18999,
+      "stock": 12,
+      "description": "All-in-one wireless laser printer for office use.",
       "status": "Inactive"
+    },
+    {
+      "id": 9,
+      "name": "Amazon Echo Dot (5th Gen)",
+      "category": "Electronics",
+      "price": 5499,
+      "stock": 80,
+      "description": "Smart speaker with Alexa voice assistant.",
+      "status": "Active"
+    },
+    {
+      "id": 10,
+      "name": "Levi's 511 Slim Fit Jeans",
+      "category": "Fashion",
+      "price": 2999,
+      "stock": 50,
+      "description": "Classic slim fit denim jeans.",
+      "status": "Active"
+    },
+    {
+      "id": 11,
+      "name": "Boat Airdopes 141",
+      "category": "Electronics",
+      "price": 1299,
+      "stock": 120,
+      "description": "Affordable true wireless earbuds with deep bass.",
+      "status": "Active"
+    },
+    {
+      "id": 12,
+      "name": "LG 55\" 4K UHD Smart TV",
+      "category": "Electronics",
+      "price": 54999,
+      "stock": 10,
+      "description": "55-inch Ultra HD Smart LED TV with webOS.",
+      "status": "Active"
+    },
+    {
+      "id": 13,
+      "name": "Puma Training T-Shirt",
+      "category": "Fashion",
+      "price": 1499,
+      "stock": 75,
+      "description": "Breathable sports t-shirt for gym workouts.",
+      "status": "Active"
+    },
+    {
+      "id": 14,
+      "name": "Samsung 28L Convection Microwave",
+      "category": "Home",
+      "price": 11990,
+      "stock": 14,
+      "description": "Convection microwave oven for baking and grilling.",
+      "status": "Active"
+    },
+    {
+      "id": 15,
+      "name": "Dell 24-inch IPS Monitor",
+      "category": "Electronics",
+      "price": 15999,
+      "stock": 28,
+      "description": "Full HD IPS monitor for office and gaming.",
+      "status": "Active"
     }
   ]
 }
