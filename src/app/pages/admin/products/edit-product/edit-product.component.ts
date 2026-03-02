@@ -1,29 +1,60 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Router } from '@angular/router';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
+import { InputSelectComponent } from '../../../../shared/components/input-select/input-select.component';
+import { InputNumberComponent } from '../../../../shared/components/input-number/input-number.component';
+import { InputTextAreaComponent } from '../../../../shared/components/input-textarea/input-textarea.component';
+import { ProductCategory, ValidationMessages } from '../../../../shared/enums/enum';
 
 @Component({
   selector: 'app-edit-product',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PageHeaderComponent,
+    InputButtonComponent,
+    InputTextComponent,
+    InputSelectComponent,
+    InputNumberComponent,
+    InputTextAreaComponent,
+  ],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css'
 })
 export class EditProductComponent {
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService, private router: Router) { }
 
+  productForm!: FormGroup<{
+    name: FormControl<string>;
+    category: FormControl<string>;
+    price: FormControl<number | null>;
+    stock: FormControl<number | null>;
+    description: FormControl<string>;
+  }>;
+
+  categoryOptions = [
+    { label: ProductCategory.ELECTRONICS, value: ProductCategory.ELECTRONICS },
+    { label: ProductCategory.FASHION, value: ProductCategory.FASHION },
+    { label: ProductCategory.HOME, value: ProductCategory.HOME },
+    { label: ProductCategory.BOOKS, value: ProductCategory.BOOKS },
+  ];
+  formErrorMessages = ValidationMessages;
+
   productId!: number;
   originalProduct: any;
-  productForm!: FormGroup;
 
   ngOnInit(): void {
-    this.productForm = this.fb.group({
+    this.productForm = this.fb.nonNullable.group({
       name: ['', [Validators.required]],
       category: ['', [Validators.required]],
-      price: [null, [Validators.required, Validators.min(1)]],
-      stock: [null, [Validators.required, Validators.min(0)]],
+      price: [null as number | null, [Validators.required, Validators.min(1)]],
+      stock: [null as number | null, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.required]]
     });
 

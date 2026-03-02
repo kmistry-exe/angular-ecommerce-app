@@ -4,10 +4,11 @@ import { StatCardComponent } from '../../../components/stat-card/stat-card.compo
 import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
 import { DashboardRecentOrdersComponent } from './dashboard-recent-orders/dashboard-recent-orders.component';
 import { Product, ProductService } from '../../../core/services/product.service';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, StatCardComponent, DashboardChartComponent, DashboardRecentOrdersComponent],
+  imports: [CommonModule, StatCardComponent, DashboardChartComponent, DashboardRecentOrdersComponent, PageHeaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -20,7 +21,7 @@ export class DashboardComponent {
 
   isLoading = true;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     this.loadAnalytics();

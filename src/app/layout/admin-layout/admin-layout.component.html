@@ -1,41 +1,50 @@
-<div class="min-h-screen flex bg-gray-100">
-  <!-- Sidebar -->
-  <aside class="w-64 bg-gray-900 text-white p-4">
-    <h1 class="text-xl font-semibold">Admin</h1>
+<div class="flex min-h-screen">
+  <aside
+    class="h-screen w-64 fixed left-0 top-0 bg-gray-900 text-white flex flex-col"
+  >
+    <div class="p-4 border-b border-gray-700 flex items-center justify-center">
+      <i class="mx-2 fa-solid fa-cart-shopping text-indigo-400"></i>
+      <span class="text-lg font-semibold">Ecommerce CMS</span>
+    </div>
 
-    <nav class="my-3">
+    <nav class="flex-1 overflow-y-auto p-3 space-y-1">
       <a
         routerLink="/admin/dashboard"
         routerLinkActive="bg-slate-800 font-semibold"
-        class="block px-3 py-2 rounded hover:bg-slate-800"
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 transition"
       >
-        Dashboard
+        <i class="fa-solid fa-hashtag"></i>
+        <span>Dashboard</span>
       </a>
       <a
         routerLink="/admin/products"
         routerLinkActive="bg-slate-800 font-semibold"
-        class="block px-3 py-2 rounded hover:bg-slate-800"
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 transition"
       >
-        Products
+        <i class="fa-solid fa-box"></i>
+        <span>Products</span>
       </a>
     </nav>
+
+    <div class="p-4 border-t border-gray-700 text-center">
+      <app-button
+        label="Logout"
+        variant="danger"
+        icon="fa-solid fa-right-from-bracket"
+        class="w-full"
+      />
+    </div>
   </aside>
 
-  <!-- Main content -->
-  <main class="flex-1 flex flex-col">
-    <!-- Top Bar -->
-    <div class="flex justify-end items-center bg-white border-b px-6 py-3">
-      <button
-        (click)="logout()"
-        class="text-sm bg-red-600 text-white px-4 py-1.5 rounded-md hover:bg-red-700 transition"
-      >
-        Logout
-      </button>
-    </div>
-
-    <!-- Page Content -->
-    <div class="p-6">
+  <div class="flex-1 ml-64 flex flex-col min-h-screen">
+    <main class="flex-1 p-6 pb-16">
       <router-outlet></router-outlet>
-    </div>
-  </main>
+    </main>
+
+    <footer
+      class="fixed bottom-0 left-64 right-0 h-10 bg-white border-t flex items-center justify-center z-40"
+    >
+      <p class="text-sm text-gray-500 text-center">© 2026 E-commerce Admin</p>
+    </footer>
+  </div>
 </div>

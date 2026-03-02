@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Product, ProductService } from '../../../../core/services/product.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
+import { AddProductsComponent } from '../add-products/add-products.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, PageHeaderComponent, InputButtonComponent, AddProductsComponent],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'
 })
 
 export class ProductsListComponent implements OnInit {
   showDeleteModal = false;
+  showAddModal = false;
+
   selectedProduct: any = null;
-  
+
   products: Product[] = [];
 
   isLoading = false;
@@ -73,5 +78,13 @@ export class ProductsListComponent implements OnInit {
         console.error('Delete API Error:', err);
       }
     });
+  }
+
+  openAddModal() {
+    this.showAddModal = true;
+  }
+
+  closeAddModal() {
+    this.showAddModal = false;
   }
 }

@@ -1,27 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
+import { InputSelectComponent } from '../../../../shared/components/input-select/input-select.component';
+import { InputNumberComponent } from '../../../../shared/components/input-number/input-number.component';
+import { InputTextAreaComponent } from '../../../../shared/components/input-textarea/input-textarea.component';
+import { ProductCategory, ValidationMessages } from '../../../../shared/enums/enum';
 
 @Component({
   selector: 'app-add-products',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PageHeaderComponent,
+    InputButtonComponent,
+    InputTextComponent,
+    InputSelectComponent,
+    InputNumberComponent,
+    InputTextAreaComponent,
+  ],
   templateUrl: './add-products.component.html',
-  styleUrl: './add-products.component.css'
+  styleUrl: './add-products.component.css',
 })
 
 export class AddProductsComponent {
-  productForm!: FormGroup;
+  productForm!: FormGroup<{
+    name: FormControl<string>;
+    category: FormControl<string>;
+    price: FormControl<number | null>;
+    stock: FormControl<number | null>;
+    description: FormControl<string>;
+  }>;
 
-  constructor(private fb: FormBuilder, private productService: ProductService, private router: Router) { }
+  categoryOptions = [
+    { label: ProductCategory.ELECTRONICS, value: ProductCategory.ELECTRONICS },
+    { label: ProductCategory.FASHION, value: ProductCategory.FASHION },
+    { label: ProductCategory.HOME, value: ProductCategory.HOME },
+    { label: ProductCategory.BOOKS, value: ProductCategory.BOOKS },
+  ];
+
+  formErrorMessages = ValidationMessages;
+
+  @Output() close = new EventEmitter<void>();
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
-    this.productForm = this.fb.group({
+    this.productForm = this.fb.nonNullable.group({
       name: ['', [Validators.required]],
       category: ['', [Validators.required]],
-      price: [null, [Validators.required, Validators.min(1)]],
-      stock: [null, [Validators.required, Validators.min(0)]],
+      price: [null as number | null, [Validators.required, Validators.min(1)]],
+      stock: [null as number | null, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.required]]
     });
   }
@@ -32,9 +74,16 @@ export class AddProductsComponent {
       return;
     }
 
+    const formValue = this.productForm.getRawValue();
+
     const productData = {
-      ...this.productForm.value,
-      status: 'Active'
+      id: Date.now(), //TODO: Need to check and update
+      name: formValue.name,
+      category: formValue.category,
+      price: formValue.price ?? 0,
+      stock: formValue.stock ?? 0,
+      description: formValue.description,
+      status: 'Active',
     };
 
     this.productService.addProduct(productData).subscribe({
@@ -44,19 +93,19 @@ export class AddProductsComponent {
         this.productForm.reset({
           category: '',
           price: null,
-          stock: null
+          stock: null,
         });
 
-        this.router.navigate(['/admin/products']);
+        this.close.emit();
       },
       error: (err) => {
         console.error('Add Product Error:', err);
-      }
+      },
     });
   }
 
   onCancel(): void {
-    this.router.navigate(['/admin/products']);
+    this.close.emit();
   }
 
   get f() {
