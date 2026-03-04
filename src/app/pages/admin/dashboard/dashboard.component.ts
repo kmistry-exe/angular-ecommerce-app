@@ -5,21 +5,21 @@ import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.compo
 import { DashboardRecentOrdersComponent } from './dashboard-recent-orders/dashboard-recent-orders.component';
 import { Product, ProductService } from '../../../core/services/product.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, StatCardComponent, DashboardChartComponent, DashboardRecentOrdersComponent, PageHeaderComponent],
+  imports: [CommonModule, StatCardComponent, DashboardChartComponent, DashboardRecentOrdersComponent, PageHeaderComponent, ErrorStateComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 
 export class DashboardComponent {
+  errorMessage: string = '';
   stats = [
     { label: 'Total Products', value: 0 },
     { label: 'Total Stock Value', value: 0, prefix: '₹' }
   ];
-
-  isLoading = true;
 
   constructor(private productService: ProductService) { }
 
@@ -41,10 +41,9 @@ export class DashboardComponent {
           { label: 'Total Stock Value', value: totalStockValue, prefix: '₹' }
         ];
 
-        this.isLoading = false;
       },
       error: () => {
-        this.isLoading = false;
+        this.errorMessage = 'Failed to load dashboard analytics';
       }
     });
   }

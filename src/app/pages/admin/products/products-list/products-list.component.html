@@ -8,21 +8,19 @@
     />
   </app-page-header>
 
-  <div *ngIf="isLoading" class="text-center py-6">Loading products...</div>
+  <app-error-state
+    *ngIf="errorMessage"
+    [message]="errorMessage"
+  ></app-error-state>
 
-  <div *ngIf="errorMessage" class="text-center text-red-600 py-4">
-    {{ errorMessage }}
-  </div>
-
-  <div
-    *ngIf="!isLoading && products.length === 0"
-    class="text-center py-6 text-gray-500"
-  >
-    No products found.
-  </div>
+  <app-empty-state
+    *ngIf="!errorMessage && products.length === 0"
+    title="No Products Found"
+    description="Start by adding your first product."
+  ></app-empty-state>
 
   <div
-    *ngIf="!isLoading && products.length > 0"
+    *ngIf="products.length > 0"
     class="bg-white border rounded-xl p-4 overflow-x-auto"
   >
     <table class="min-w-full text-sm text-left">

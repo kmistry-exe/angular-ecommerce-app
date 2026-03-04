@@ -2,7 +2,7 @@
   <app-page-header title="Dashboard" subtitle="Overview of store performance" />
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <ng-container *ngIf="!isLoading; else loadingStats">
+    <ng-container>
       <app-stat-card
         *ngFor="let stat of stats"
         [label]="stat.label"
@@ -11,11 +11,10 @@
       />
     </ng-container>
 
-    <ng-template #loadingStats>
-      <div class="col-span-full text-center text-gray-500 py-6">
-        Loading analytics...
-      </div>
-    </ng-template>
+    <app-error-state
+      *ngIf="errorMessage"
+      [message]="errorMessage"
+    ></app-error-state>
   </div>
 
   <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">

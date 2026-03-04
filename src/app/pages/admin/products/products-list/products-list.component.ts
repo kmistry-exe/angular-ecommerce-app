@@ -5,10 +5,12 @@ import { Product, ProductService } from '../../../../core/services/product.servi
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
 import { AddProductsComponent } from '../add-products/add-products.component';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
+import { ErrorStateComponent } from '../../../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [CommonModule, PageHeaderComponent, InputButtonComponent, AddProductsComponent],
+  imports: [CommonModule, PageHeaderComponent, InputButtonComponent, AddProductsComponent, EmptyStateComponent, ErrorStateComponent],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'
 })
@@ -16,27 +18,20 @@ import { AddProductsComponent } from '../add-products/add-products.component';
 export class ProductsListComponent implements OnInit {
   showDeleteModal = false;
   showAddModal = false;
-
   selectedProduct: any = null;
-
   products: Product[] = [];
-
-  isLoading = false;
   errorMessage: string = '';
 
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
-        this.isLoading = false;
       },
       error: (err) => {
         console.error('API Error:', err);
         this.errorMessage = 'Failed to load products';
-        this.isLoading = false;
       }
     });
   }
