@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-button',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './input-button.component.html'
 })

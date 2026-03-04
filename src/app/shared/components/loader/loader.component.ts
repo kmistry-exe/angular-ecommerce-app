@@ -4,7 +4,6 @@ import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
     selector: 'app-loader',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './loader.component.html',
 })

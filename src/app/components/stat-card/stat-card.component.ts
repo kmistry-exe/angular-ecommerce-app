@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-stat-card',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './stat-card.component.html',
 })

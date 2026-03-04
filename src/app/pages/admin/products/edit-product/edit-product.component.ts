@@ -4,25 +4,16 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Router } from '@angular/router';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
-import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
-import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
-import { InputSelectComponent } from '../../../../shared/components/input-select/input-select.component';
-import { InputNumberComponent } from '../../../../shared/components/input-number/input-number.component';
-import { InputTextAreaComponent } from '../../../../shared/components/input-textarea/input-textarea.component';
+
 import { ProductCategory, ValidationMessages } from '../../../../shared/enums/enum';
+import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
 
 @Component({
   selector: 'app-edit-product',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PageHeaderComponent,
-    InputButtonComponent,
-    InputTextComponent,
-    InputSelectComponent,
-    InputNumberComponent,
-    InputTextAreaComponent,
+    ProductFormComponent
   ],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css'

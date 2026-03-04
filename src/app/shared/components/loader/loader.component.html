@@ -1,6 +1,6 @@
 <div
   *ngIf="loadingService.loading$ | async"
-  class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[9999]"
+  class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[9999] pointer-events-auto"
 >
   <div
     class="bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center gap-4"

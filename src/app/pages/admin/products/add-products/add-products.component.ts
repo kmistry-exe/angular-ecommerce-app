@@ -9,25 +9,15 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
-import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
-import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
-import { InputSelectComponent } from '../../../../shared/components/input-select/input-select.component';
-import { InputNumberComponent } from '../../../../shared/components/input-number/input-number.component';
-import { InputTextAreaComponent } from '../../../../shared/components/input-textarea/input-textarea.component';
 import { ProductCategory, ValidationMessages } from '../../../../shared/enums/enum';
+import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
 
 @Component({
   selector: 'app-add-products',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PageHeaderComponent,
-    InputButtonComponent,
-    InputTextComponent,
-    InputSelectComponent,
-    InputNumberComponent,
-    InputTextAreaComponent,
+    ProductFormComponent
   ],
   templateUrl: './add-products.component.html',
   styleUrl: './add-products.component.css',
