@@ -1,0 +1,13 @@
+<div
+  *ngIf="loadingService.loading$ | async"
+  class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[9999]"
+>
+  <div
+    class="bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center gap-4"
+  >
+    <div
+      class="h-10 w-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"
+    ></div>
+    <p class="text-sm font-medium text-gray-600">Loading...</p>
+  </div>
+</div>
