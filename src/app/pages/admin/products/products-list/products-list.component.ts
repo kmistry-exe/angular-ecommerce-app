@@ -1,28 +1,46 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product, ProductService } from '../../../../core/services/product.service';
+import {
+  Product,
+  ProductService,
+} from '../../../../core/services/product.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
 import { AddProductsComponent } from '../add-products/add-products.component';
 import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../../shared/components/error-state/error-state.component';
+import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { EditProductComponent } from '../edit-product/edit-product.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [CommonModule, PageHeaderComponent, InputButtonComponent, AddProductsComponent, EmptyStateComponent, ErrorStateComponent],
+  imports: [
+    CommonModule,
+    PageHeaderComponent,
+    InputButtonComponent,
+    AddProductsComponent,
+    EditProductComponent,
+    EmptyStateComponent,
+    ErrorStateComponent,
+    ConfirmationModalComponent,
+  ],
   templateUrl: './products-list.component.html',
-  styleUrl: './products-list.component.css'
+  styleUrl: './products-list.component.css',
 })
-
 export class ProductsListComponent implements OnInit {
-  showDeleteModal = false;
   showAddModal = false;
+  showEditModal = false;
+  showDeleteModal = false;
+
   selectedProduct: any = null;
   products: Product[] = [];
   errorMessage: string = '';
 
-  constructor(private router: Router, private productService: ProductService) { }
+  constructor(
+    private router: Router,
+    private productService: ProductService,
+  ) {}
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
@@ -32,16 +50,14 @@ export class ProductsListComponent implements OnInit {
       error: (err) => {
         console.error('API Error:', err);
         this.errorMessage = 'Failed to load products';
-      }
+      },
     });
   }
 
   getStatusClass(status: string): string {
-    return status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600';
-  }
-
-  onEdit(id: number) {
-    this.router.navigate(['/admin/products/edit', id]);
+    return status === 'Active'
+      ? 'bg-green-100 text-green-700'
+      : 'bg-red-100 text-red-600';
   }
 
   openDeleteModal(product: any): void {
@@ -64,14 +80,14 @@ export class ProductsListComponent implements OnInit {
       next: () => {
         console.log('Product deleted successfully');
         this.products = this.products.filter(
-          p => p.id !== this.selectedProduct.id
+          (p) => p.id !== this.selectedProduct.id,
         );
 
         this.closeDeleteModal();
       },
       error: (err) => {
         console.error('Delete API Error:', err);
-      }
+      },
     });
   }
 
@@ -81,5 +97,23 @@ export class ProductsListComponent implements OnInit {
 
   closeAddModal() {
     this.showAddModal = false;
+  }
+
+  openEditModal(product: any): void {
+    this.selectedProduct = product;
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.selectedProduct = null;
+  }
+
+  updateProductTable(updatedProduct: any): void {
+    const index = this.products.findIndex((p) => p.id === updatedProduct.id);
+
+    if (index !== -1) {
+      this.products[index] = updatedProduct;
+    }
   }
 }

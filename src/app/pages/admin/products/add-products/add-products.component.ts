@@ -78,8 +78,6 @@ export class AddProductsComponent {
 
     this.productService.addProduct(productData).subscribe({
       next: () => {
-        console.log('Product added successfully');
-
         this.productForm.reset({
           category: '',
           price: null,

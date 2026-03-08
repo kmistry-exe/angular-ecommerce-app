@@ -1,8 +1,10 @@
-<app-product-form
-  [productForm]="productForm"
-  [categoryOptions]="categoryOptions"
-  [formErrorMessages]="formErrorMessages"
-  mode="edit"
-  (submitForm)="onSubmit()"
-  (cancelForm)="onCancel()"
-/>
+<div *ngIf="isLoading">
+  <app-product-form
+    [productForm]="productForm"
+    [categoryOptions]="categoryOptions"
+    [formErrorMessages]="formErrorMessages"
+    mode="edit"
+    (submitForm)="onSubmit()"
+    (cancelForm)="onCancel()"
+  />
+</div>
