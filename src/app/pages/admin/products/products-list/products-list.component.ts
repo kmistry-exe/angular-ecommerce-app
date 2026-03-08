@@ -12,6 +12,7 @@ import { EmptyStateComponent } from '../../../../shared/components/empty-state/e
 import { ErrorStateComponent } from '../../../../shared/components/error-state/error-state.component';
 import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { EditProductComponent } from '../edit-product/edit-product.component';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'app-products-list',
@@ -24,6 +25,7 @@ import { EditProductComponent } from '../edit-product/edit-product.component';
     EmptyStateComponent,
     ErrorStateComponent,
     ConfirmationModalComponent,
+    CardComponent,
   ],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css',

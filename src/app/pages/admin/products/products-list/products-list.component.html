@@ -19,64 +19,51 @@
     description="Start by adding your first product."
   ></app-empty-state>
 
-  <div
-    *ngIf="products.length > 0"
-    class="bg-white border rounded-xl p-4 overflow-x-auto"
-  >
-    <table class="min-w-full text-sm text-left">
-      <thead class="text-xs uppercase text-gray-500 border-b">
-        <tr>
-          <th class="py-3">Name</th>
-          <th class="py-3">Category</th>
-          <th class="py-3 text-right">Price</th>
-          <th class="py-3 text-center">Stock</th>
-          <th class="py-3 text-center">Status</th>
-          <th class="py-3 text-right">Actions</th>
-        </tr>
-      </thead>
+  <div *ngIf="products.length > 0" class="p-4 overflow-x-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <app-card *ngFor="let product of products">
+        <div card-title>
+          {{ product.name }}
+        </div>
 
-      <tbody class="divide-y">
-        <tr *ngFor="let product of products" class="hover:bg-gray-50">
-          <td class="py-3 font-medium">
-            {{ product.name }}
-          </td>
-
-          <td class="py-3">
+        <div card-header-right>
+          <span
+            class="px-3 py-1 text-xs font-medium rounded-full bg-indigo-600 text-white hover:bg-indigo-700 active:scale-[0.98] text-primary"
+          >
             {{ product.category }}
-          </td>
+          </span>
+        </div>
 
-          <td class="py-3 text-right">₹ {{ product.price | number }}</td>
+        <div card-body>
+          <div class="text-gray-600 line-clamp-2 min-h-[40px]">
+            {{ product.description }}
+          </div>
 
-          <td class="py-3 text-center">
-            {{ product.stock }}
-          </td>
+          <div
+            class="flex justify-between text-sm font-medium text-gray-800 my-4"
+          >
+            <span> ₹{{ product.price | number }} </span>
+            <span> Stock: {{ product.stock }} </span>
+          </div>
+        </div>
 
-          <td class="py-3 text-center">
-            <span
-              class="px-2 py-1 rounded-full text-xs font-medium"
-              [ngClass]="getStatusClass(product.status)"
-            >
-              {{ product.status }}
-            </span>
-          </td>
+        <div class="flex justify-end gap-3" card-actions>
+          <app-button
+            variant="secondary"
+            label="Edit"
+            icon="fa-edit"
+            (click)="openEditModal(product)"
+          ></app-button>
 
-          <td class="py-3 text-right space-x-2">
-            <app-button
-              variant="secondary"
-              icon="fa-pen"
-              [iconOnly]="true"
-              (click)="openEditModal(product)"
-            />
-            <app-button
-              variant="danger"
-              icon="fa-trash"
-              [iconOnly]="true"
-              (click)="openDeleteModal(product)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <app-button
+            variant="danger"
+            label="Delete"
+            icon="fa-trash"
+            (click)="openDeleteModal(product)"
+          ></app-button>
+        </div>
+      </app-card>
+    </div>
 
     <app-confirmation-modal
       *ngIf="showDeleteModal"
