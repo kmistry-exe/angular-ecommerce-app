@@ -134,6 +134,141 @@
       "stock": 28,
       "description": "Full HD IPS monitor for office and gaming.",
       "status": "Active"
+    },
+    {
+      "id": 16,
+      "name": "Apple iPad Air (5th Gen)",
+      "category": "Electronics",
+      "price": 59900,
+      "stock": 20,
+      "description": "10.9-inch iPad Air powered by Apple M1 chip.",
+      "status": "Active"
+    },
+    {
+      "id": 17,
+      "name": "Canon EOS 1500D DSLR Camera",
+      "category": "Electronics",
+      "price": 38999,
+      "stock": 9,
+      "description": "24.1MP DSLR camera with WiFi and Full HD recording.",
+      "status": "Active"
+    },
+    {
+      "id": 18,
+      "name": "Noise ColorFit Pulse Smartwatch",
+      "category": "Electronics",
+      "price": 2499,
+      "stock": 95,
+      "description": "Fitness smartwatch with heart rate and SpO2 monitor.",
+      "status": "Active"
+    },
+    {
+      "id": 19,
+      "name": "Realme Narzo 70 Pro",
+      "category": "Electronics",
+      "price": 18999,
+      "stock": 40,
+      "description": "Mid-range smartphone with AMOLED display and fast charging.",
+      "status": "Active"
+    },
+    {
+      "id": 20,
+      "name": "Wooden Study Table",
+      "category": "Home",
+      "price": 7999,
+      "stock": 16,
+      "description": "Compact wooden study table suitable for home office.",
+      "status": "Active"
+    },
+    {
+      "id": 21,
+      "name": "Philips Air Fryer HD9200",
+      "category": "Home",
+      "price": 9999,
+      "stock": 21,
+      "description": "Healthy air fryer for oil-free cooking.",
+      "status": "Active"
+    },
+    {
+      "id": 22,
+      "name": "Usha Mist Air Ceiling Fan",
+      "category": "Home",
+      "price": 3499,
+      "stock": 44,
+      "description": "High speed ceiling fan with energy efficient motor.",
+      "status": "Active"
+    },
+    {
+      "id": 23,
+      "name": "Allen Solly Formal Shirt",
+      "category": "Fashion",
+      "price": 1899,
+      "stock": 55,
+      "description": "Slim fit cotton formal shirt for office wear.",
+      "status": "Active"
+    },
+    {
+      "id": 24,
+      "name": "Peter England Men's Blazer",
+      "category": "Fashion",
+      "price": 5499,
+      "stock": 18,
+      "description": "Classic formal blazer for professional occasions.",
+      "status": "Active"
+    },
+    {
+      "id": 25,
+      "name": "Roadster Casual Sneakers",
+      "category": "Fashion",
+      "price": 2599,
+      "stock": 33,
+      "description": "Comfortable everyday casual sneakers.",
+      "status": "Active"
+    },
+    {
+      "id": 26,
+      "name": "Mi Power Bank 20000mAh",
+      "category": "Electronics",
+      "price": 2199,
+      "stock": 70,
+      "description": "Fast charging power bank with dual USB output.",
+      "status": "Active"
+    },
+    {
+      "id": 27,
+      "name": "Logitech MX Master 3S Mouse",
+      "category": "Electronics",
+      "price": 8995,
+      "stock": 26,
+      "description": "Premium wireless productivity mouse.",
+      "status": "Active"
+    },
+    {
+      "id": 28,
+      "name": "HP Pavilion Gaming Laptop",
+      "category": "Electronics",
+      "price": 76999,
+      "stock": 11,
+      "description": "Gaming laptop with RTX graphics and 144Hz display.",
+      "status": "Active"
+    },
+    {
+      "id": 29,
+      "name": "Decathlon Yoga Mat",
+      "category": "Sports",
+      "price": 1299,
+      "stock": 60,
+      "description": "Anti-slip yoga mat suitable for home workouts.",
+      "status": "Active"
+    },
+    {
+      "id": 30,
+      "name": "Wildcraft Travel Backpack",
+      "category": "Fashion",
+      "price": 3499,
+      "stock": 32,
+      "description": "Durable backpack ideal for travel and daily commute.",
+      "status": "Active"
     }
   ]
 }

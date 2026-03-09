@@ -1,0 +1,76 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
+>
+  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
+    <app-page-header [title]="mode === 'edit' ? 'Edit Product' : 'Add Product'">
+    </app-page-header>
+
+    <form class="space-y-6" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+        <app-text
+          label="Product Name"
+          placeholder="Enter product name"
+          [control]="f['name']"
+          [requiredMessage]="formErrorMessages.REQUIRED"
+        >
+        </app-text>
+
+        <app-select
+          label="Category"
+          [control]="f['category']"
+          [requiredMessage]="formErrorMessages.REQUIRED"
+          [options]="categoryOptions"
+        >
+        </app-select>
+
+        <app-number
+          label="Price"
+          placeholder="Enter price"
+          [control]="f['price']"
+          [requiredMessage]="formErrorMessages.REQUIRED"
+          [minMessage]="'Price must be greater than 0'"
+        >
+        </app-number>
+
+        <app-number
+          label="Stock Quantity"
+          placeholder="Enter stock quantity"
+          [control]="f['stock']"
+          [requiredMessage]="formErrorMessages.REQUIRED"
+          [minMessage]="'Stock cannot be negative'"
+        >
+        </app-number>
+
+        <div class="col-span-2">
+          <app-textarea
+            label="Description"
+            placeholder="Enter product description"
+            [control]="f['description']"
+            [requiredMessage]="formErrorMessages.REQUIRED"
+          >
+          </app-textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <app-button
+          variant="secondary"
+          label="Cancel"
+          type="button"
+          icon="fa-times"
+          (click)="onCancel()"
+        >
+        </app-button>
+
+        <app-button
+          variant="primary"
+          [label]="mode === 'edit' ? 'Update' : 'Save'"
+          icon="fa-bookmark"
+          type="submit"
+          [disabled]="productForm.invalid"
+        >
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>

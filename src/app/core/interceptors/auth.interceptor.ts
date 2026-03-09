@@ -10,18 +10,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authReq = token
     ? req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
     : req;
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      // If API returns 401 → force logout
       if (error.status === 401) {
         authService.logout();
       }
       return throwError(() => error);
-    })
+    }),
   );
 };

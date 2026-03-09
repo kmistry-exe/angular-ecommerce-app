@@ -7,9 +7,8 @@ import { ChartConfiguration } from 'chart.js';
   selector: 'app-dashboard-chart',
   imports: [CommonModule, BaseChartDirective],
   templateUrl: './dashboard-chart.component.html',
-  styleUrl: './dashboard-chart.component.css'
+  styleUrl: './dashboard-chart.component.css',
 })
-
 export class DashboardChartComponent {
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
@@ -20,9 +19,9 @@ export class DashboardChartComponent {
         fill: true,
         tension: 0.4,
         borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.1)'
-      }
-    ]
+        backgroundColor: 'rgba(59,130,246,0.1)',
+      },
+    ],
   };
 
   public lineChartOptions: ChartConfiguration<'line'>['options'] = {
@@ -30,27 +29,27 @@ export class DashboardChartComponent {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
       tooltip: {
         mode: 'index',
-        intersect: false
-      }
+        intersect: false,
+      },
     },
     scales: {
       x: {
         grid: {
-          display: false
-        }
+          display: false,
+        },
       },
       y: {
         grid: {
-          color: 'rgba(0,0,0,0.05)'
+          color: 'rgba(0,0,0,0.05)',
         },
         ticks: {
-          stepSize: 1000
-        }
-      }
-    }
+          stepSize: 1000,
+        },
+      },
+    },
   };
 }

@@ -3,22 +3,32 @@ import { Component } from '@angular/core';
 import { StatCardComponent } from '../../../components/stat-card/stat-card.component';
 import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
 import { DashboardRecentOrdersComponent } from './dashboard-recent-orders/dashboard-recent-orders.component';
-import { Product, ProductService } from '../../../core/services/product.service';
+import {
+  Product,
+  ProductService,
+} from '../../../core/services/product.service';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, StatCardComponent, DashboardChartComponent, DashboardRecentOrdersComponent],
+  imports: [
+    CommonModule,
+    StatCardComponent,
+    DashboardChartComponent,
+    DashboardRecentOrdersComponent,
+    PageHeaderComponent,
+    ErrorStateComponent,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-
 export class DashboardComponent {
+  errorMessage: string = '';
   stats = [
     { label: 'Total Products', value: 0 },
-    { label: 'Total Stock Value', value: 0, prefix: '₹' }
+    { label: 'Total Stock Value', value: 0, prefix: '₹' },
   ];
-
-  isLoading = true;
 
   constructor(private productService: ProductService) {}
 
@@ -32,19 +42,17 @@ export class DashboardComponent {
         const totalProducts = products.length;
 
         const totalStockValue = products.reduce((total, product) => {
-          return total + (product.price * product.stock);
+          return total + product.price * product.stock;
         }, 0);
 
         this.stats = [
           { label: 'Total Products', value: totalProducts },
-          { label: 'Total Stock Value', value: totalStockValue, prefix: '₹' }
+          { label: 'Total Stock Value', value: totalStockValue, prefix: '₹' },
         ];
-
-        this.isLoading = false;
       },
       error: () => {
-        this.isLoading = false;
-      }
+        this.errorMessage = 'Failed to load dashboard analytics';
+      },
     });
   }
 }

@@ -1,0 +1,21 @@
+<div class="w-full mb-2">
+  <label *ngIf="label" class="block text-sm font-medium mb-2">
+    {{ label }}
+  </label>
+
+  <div class="flex gap-4">
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="radio" [formControl]="control" [value]="true" />
+      Yes
+    </label>
+
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="radio" [formControl]="control" [value]="false" />
+      No
+    </label>
+  </div>
+
+  <div class="min-h-[18px] mt-1">
+    <app-input-error [control]="control" [requiredMessage]="requiredMessage" />
+  </div>
+</div>

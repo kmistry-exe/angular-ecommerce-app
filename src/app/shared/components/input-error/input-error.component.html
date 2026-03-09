@@ -1,0 +1,20 @@
+<div
+  *ngIf="control && control.touched && control.errors"
+  class="text-red-500 text-xs mt-1"
+>
+  <span *ngIf="control.errors['required']">
+    {{ requiredMessage }}
+  </span>
+
+  <span *ngIf="control.errors['email']">
+    {{ emailMessage }}
+  </span>
+
+  <span *ngIf="control.errors['minlength']">
+    {{ minlengthMessage }}
+  </span>
+
+  <span *ngIf="control.errors['min']">
+    {{ minMessage }}
+  </span>
+</div>
