@@ -10,7 +10,6 @@ import { FormControl } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule, InputErrorComponent],
   templateUrl: './input-text.component.html',
 })
-
 export class InputTextComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';

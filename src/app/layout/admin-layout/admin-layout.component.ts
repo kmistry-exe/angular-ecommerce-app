@@ -7,11 +7,10 @@ import { InputButtonComponent } from '../../shared/components/input-button/input
   selector: 'app-admin-layout',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, InputButtonComponent],
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.css'
+  styleUrl: './admin-layout.component.css',
 })
-
 export class AdminLayoutComponent {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   logout(): void {
     this.authService.logout();

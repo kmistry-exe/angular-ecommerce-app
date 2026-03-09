@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
-    selector: 'app-loader',
-    imports: [CommonModule],
-    templateUrl: './loader.component.html',
+  selector: 'app-loader',
+  imports: [CommonModule],
+  templateUrl: './loader.component.html',
 })
-
 export class LoaderComponent {
-    constructor(public loadingService: LoadingService) { }
+  constructor(public loadingService: LoadingService) {}
 }

@@ -10,11 +10,15 @@ import { InputTextComponent } from '../../../shared/components/input-text/input-
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, InputButtonComponent, InputTextComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputButtonComponent,
+    InputTextComponent,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-
 export class LoginComponent implements OnInit {
   loginForm;
   isSubmitting = false;
@@ -24,11 +28,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginForm = this.fb.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 

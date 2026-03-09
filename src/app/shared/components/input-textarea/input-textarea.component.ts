@@ -9,7 +9,6 @@ import { ValidationMessages } from '../../enums/enum';
   imports: [CommonModule, ReactiveFormsModule, InputErrorComponent],
   templateUrl: './input-textarea.component.html',
 })
-
 export class InputTextAreaComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';

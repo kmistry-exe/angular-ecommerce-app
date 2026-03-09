@@ -6,9 +6,8 @@ import { ValidationMessages } from '../../enums/enum';
 @Component({
   selector: 'app-input-error',
   imports: [CommonModule],
-  templateUrl: './input-error.component.html'
+  templateUrl: './input-error.component.html',
 })
-
 export class InputErrorComponent {
   @Input() control!: AbstractControl | null;
 

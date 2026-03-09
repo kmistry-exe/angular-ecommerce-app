@@ -9,40 +9,39 @@ import { InputButtonComponent } from '../input-button/input-button.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @Component({
-    selector: 'app-product-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PageHeaderComponent,
-        InputButtonComponent,
-        InputTextComponent,
-        InputSelectComponent,
-        InputNumberComponent,
-        InputTextAreaComponent,
-    ],
-    templateUrl: './product-form.component.html'
+  selector: 'app-product-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PageHeaderComponent,
+    InputButtonComponent,
+    InputTextComponent,
+    InputSelectComponent,
+    InputNumberComponent,
+    InputTextAreaComponent,
+  ],
+  templateUrl: './product-form.component.html',
 })
-
 export class ProductFormComponent {
-    @Input() productForm!: FormGroup;
-    @Input() categoryOptions: any[] = [];
-    @Input() formErrorMessages: any;
-    @Input() mode: 'add' | 'edit' = 'add';
+  @Input() productForm!: FormGroup;
+  @Input() categoryOptions: any[] = [];
+  @Input() formErrorMessages: any;
+  @Input() mode: 'add' | 'edit' = 'add';
 
-    @Output() submitForm = new EventEmitter<void>();
-    @Output() cancelForm = new EventEmitter<void>();
+  @Output() submitForm = new EventEmitter<void>();
+  @Output() cancelForm = new EventEmitter<void>();
 
-    onSubmit() {
-        this.submitForm.emit();
-    }
+  onSubmit() {
+    this.submitForm.emit();
+  }
 
-    onCancel() {
-        this.cancelForm.emit();
-    }
+  onCancel() {
+    this.cancelForm.emit();
+  }
 
-    get f() {
-        return this.productForm.controls as {
-            [key: string]: FormControl;
-        };
-    }
+  get f() {
+    return this.productForm.controls as {
+      [key: string]: FormControl;
+    };
+  }
 }

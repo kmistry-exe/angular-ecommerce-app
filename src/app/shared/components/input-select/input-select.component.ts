@@ -9,7 +9,6 @@ import { ValidationMessages } from '../../enums/enum';
   imports: [CommonModule, ReactiveFormsModule, InputErrorComponent],
   templateUrl: './input-select.component.html',
 })
-
 export class InputSelectComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';

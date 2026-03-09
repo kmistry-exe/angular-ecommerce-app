@@ -86,7 +86,6 @@ export class EditProductComponent implements OnInit {
 
     this.productService.updateProduct(updatedProduct).subscribe({
       next: () => {
-        console.log('Product updated successfully');
         this.save.emit(updatedProduct);
         this.close.emit();
       },

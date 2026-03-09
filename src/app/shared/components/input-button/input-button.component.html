@@ -1,4 +1,9 @@
-<button [type]="type" [disabled]="disabled" [ngClass]="variantClasses">
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [ngClass]="variantClasses"
+  class="select-none"
+>
   <span class="flex items-center justify-center gap-2 leading-none">
     <span *ngIf="label" class="whitespace-nowrap">
       {{ label }}

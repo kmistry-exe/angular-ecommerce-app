@@ -9,20 +9,18 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
-import { ProductCategory, ValidationMessages } from '../../../../shared/enums/enum';
+import {
+  ProductCategory,
+  ValidationMessages,
+} from '../../../../shared/enums/enum';
 import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
 
 @Component({
   selector: 'app-add-products',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ProductFormComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, ProductFormComponent],
   templateUrl: './add-products.component.html',
   styleUrl: './add-products.component.css',
 })
-
 export class AddProductsComponent {
   productForm!: FormGroup<{
     name: FormControl<string>;
@@ -46,7 +44,7 @@ export class AddProductsComponent {
     private fb: FormBuilder,
     private productService: ProductService,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.productForm = this.fb.nonNullable.group({
@@ -54,7 +52,7 @@ export class AddProductsComponent {
       category: ['', [Validators.required]],
       price: [null as number | null, [Validators.required, Validators.min(1)]],
       stock: [null as number | null, [Validators.required, Validators.min(0)]],
-      description: ['', [Validators.required]]
+      description: ['', [Validators.required]],
     });
   }
 

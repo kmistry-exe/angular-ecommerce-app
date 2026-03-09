@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
   private readonly TOKEN_KEY = 'admin_token';
   private readonly STORAGE_KEY = 'admin_logged_in';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   login(email: string, password: string): boolean {
     const validEmail = 'admin@angular.com';
