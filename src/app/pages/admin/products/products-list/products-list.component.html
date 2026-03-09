@@ -21,7 +21,7 @@
 
   <div *ngIf="products.length > 0" class="p-4 overflow-x-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <app-card *ngFor="let product of products">
+      <app-card *ngFor="let product of paginatedProducts">
         <div card-title>
           {{ product.name }}
         </div>
@@ -34,8 +34,8 @@
           </span>
         </div>
 
-        <div card-body>
-          <div class="text-gray-600 line-clamp-2 min-h-[40px]">
+        <div card-body class="flex flex-col justify-between h-full">
+          <div class="text-gray-600">
             {{ product.description }}
           </div>
 
@@ -64,6 +64,12 @@
         </div>
       </app-card>
     </div>
+
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="goToPage($event)"
+    ></app-pagination>
 
     <app-confirmation-modal
       *ngIf="showDeleteModal"

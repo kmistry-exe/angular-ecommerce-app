@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   Product,
   ProductService,
@@ -13,6 +12,8 @@ import { ErrorStateComponent } from '../../../../shared/components/error-state/e
 import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { CardComponent } from '../../../../shared/components/card/card.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination-component';
+import { LoadingService } from '../../../../core/services/loading.service';
 
 @Component({
   selector: 'app-products-list',
@@ -26,22 +27,29 @@ import { CardComponent } from '../../../../shared/components/card/card.component
     ErrorStateComponent,
     ConfirmationModalComponent,
     CardComponent,
+    PaginationComponent,
   ],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css',
 })
 export class ProductsListComponent implements OnInit {
+  isPageLoading = false;
+
   showAddModal = false;
   showEditModal = false;
   showDeleteModal = false;
 
   selectedProduct: any = null;
   products: Product[] = [];
+
+  currentPage = 1;
+  pageSize = 9;
+
   errorMessage: string = '';
 
   constructor(
-    private router: Router,
     private productService: ProductService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -117,5 +125,42 @@ export class ProductsListComponent implements OnInit {
     if (index !== -1) {
       this.products[index] = updatedProduct;
     }
+  }
+
+  get paginatedProducts(): Product[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.products.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.products.length / this.pageSize);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  goToPage(page: number): void {
+    this.loadingService.show();
+
+    setTimeout(() => {
+      this.currentPage = page;
+
+      this.loadingService.hide();
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }, 200);
   }
 }
