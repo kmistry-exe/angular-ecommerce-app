@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,11 +10,11 @@ export class AuthService {
   private readonly TOKEN_KEY = 'admin_token';
   private readonly STORAGE_KEY = 'admin_logged_in';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loadingService: LoadingService) {}
 
   login(email: string, password: string): boolean {
-    const validEmail = 'admin@angular.com';
-    const validPassword = 'admin@Angular123';
+    const validEmail = environment.adminAuth.email;
+    const validPassword = environment.adminAuth.password;
 
     if (email === validEmail && password === validPassword) {
       localStorage.setItem(this.STORAGE_KEY, 'true');
@@ -24,6 +26,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.loadingService.show();
     localStorage.removeItem(this.STORAGE_KEY);
     localStorage.removeItem(this.TOKEN_KEY);
     this.router.navigate(['/login']);

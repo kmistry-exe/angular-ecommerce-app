@@ -7,6 +7,8 @@ import { OnInit } from '@angular/core';
 import { InputButtonComponent } from '../../../shared/components/input-button/input-button.component';
 import { ValidationMessages } from '../../../shared/enums/enum';
 import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
+import { LoadingService } from '../../../core/services/loading.service';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,7 @@ import { InputTextComponent } from '../../../shared/components/input-text/input-
     ReactiveFormsModule,
     InputButtonComponent,
     InputTextComponent,
+    PageHeaderComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -29,6 +32,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private loadingService: LoadingService,
   ) {
     this.loginForm = this.fb.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,6 +58,7 @@ export class LoginComponent implements OnInit {
     const isLoggedIn = this.authService.login(email, password);
 
     if (isLoggedIn) {
+      this.isSubmitting = false;
       this.router.navigate(['/admin/dashboard']);
     } else {
       this.loginError = 'Invalid email or password';
@@ -62,6 +67,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadingService.hide();
+
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/admin/dashboard']);
     }

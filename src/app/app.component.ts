@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
 export class AppComponent {
   title = 'angular-ecommerce-app';
 
-  constructor(private router: Router, private loading: LoadingService) {
+  constructor(private router: Router, private loadingService: LoadingService) {
     this.router.events
       .pipe(
         filter(
@@ -25,9 +25,9 @@ export class AppComponent {
       )
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
-          this.loading.show();
+          this.loadingService.show();
         } else {
-          this.loading.hide();
+          this.loadingService.hide();
         }
       });
   }
