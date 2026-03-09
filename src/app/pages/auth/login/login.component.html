@@ -1,9 +1,9 @@
 <section class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
   <div class="w-full max-w-md bg-white rounded-xl shadow-sm border p-6">
-    <div class="mb-6 text-center">
-      <h1 class="text-2xl font-semibold">Admin Login</h1>
-      <p class="text-sm text-gray-500">Sign in to access the admin panel</p>
-    </div>
+    <app-page-header
+      title="Admin Login"
+      subtitle="Sign in to access the admin panel"
+    ></app-page-header>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <app-text
@@ -27,7 +27,12 @@
       </div>
 
       <div class="text-right">
-        <app-button variant="primary" type="submit" label="Sign In" />
+        <app-button
+          variant="primary"
+          type="submit"
+          label="Sign In"
+          [disabled]="isSubmitting"
+        />
       </div>
     </form>
   </div>

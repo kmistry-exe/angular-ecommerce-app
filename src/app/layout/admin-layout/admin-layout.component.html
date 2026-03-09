@@ -32,9 +32,18 @@
         variant="danger"
         icon="fa-solid fa-right-from-bracket"
         class="w-full"
+        (click)="openLogoutConfirm()"
       />
     </div>
   </aside>
+
+  <app-confirmation-modal
+    *ngIf="showLogoutConfirm"
+    title="Confirm Logout"
+    message="Are you sure you want to logout?"
+    (confirm)="confirmLogout()"
+    (cancel)="cancelLogout()"
+  />
 
   <div class="flex-1 ml-64 flex flex-col min-h-screen">
     <main class="flex-1 p-6 pb-16">
