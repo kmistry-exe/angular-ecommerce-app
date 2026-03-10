@@ -5,4 +5,6 @@ export const environment = {
     email: 'admin@angular.com',
     password: 'admin@Angular123',
   },
+
+  apiUrl: 'https://angular-ecommerce-api.onrender.com',
 };

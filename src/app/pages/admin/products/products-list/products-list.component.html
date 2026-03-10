@@ -92,7 +92,11 @@
       class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
     >
       <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6">
-        <app-add-products (close)="closeAddModal()" />
+        <app-add-products
+          *ngIf="showAddModal"
+          (save)="loadProducts()"
+          (close)="closeAddModal()"
+        />
       </div>
     </div>
 

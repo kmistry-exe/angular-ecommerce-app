@@ -53,6 +53,10 @@ export class ProductsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
@@ -88,10 +92,7 @@ export class ProductsListComponent implements OnInit {
 
     this.productService.deleteProduct(this.selectedProduct.id).subscribe({
       next: () => {
-        this.products = this.products.filter(
-          (p) => p.id !== this.selectedProduct.id,
-        );
-
+        this.loadProducts();
         this.closeDeleteModal();
       },
       error: (err) => {
@@ -119,11 +120,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   updateProductTable(updatedProduct: any): void {
-    const index = this.products.findIndex((p) => p.id === updatedProduct.id);
-
-    if (index !== -1) {
-      this.products[index] = updatedProduct;
-    }
+    this.loadProducts();
   }
 
   get paginatedProducts(): Product[] {
