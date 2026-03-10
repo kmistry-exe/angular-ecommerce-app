@@ -7,7 +7,6 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
 import {
   ProductCategory,
@@ -39,11 +38,12 @@ export class AddProductsComponent {
 
   formErrorMessages = ValidationMessages;
 
+  @Output() save = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +82,7 @@ export class AddProductsComponent {
           stock: null,
         });
 
+        this.save.emit();
         this.close.emit();
       },
       error: (err) => {
