@@ -10,6 +10,7 @@ import {
 import { ProductService } from '../../../../core/services/product.service';
 import {
   ProductCategory,
+  ProductStatus,
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
@@ -65,13 +66,13 @@ export class AddProductsComponent {
     const formValue = this.productForm.getRawValue();
 
     const productData = {
-      id: Date.now(), //TODO: Need to check and update
+      id: Date.now(),
       name: formValue.name,
       category: formValue.category,
       price: formValue.price ?? 0,
       stock: formValue.stock ?? 0,
       description: formValue.description,
-      status: 'Active',
+      status: ProductStatus.ACTIVE,
     };
 
     this.productService.addProduct(productData).subscribe({
