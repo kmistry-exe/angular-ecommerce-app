@@ -1,1 +1,9 @@
-<p>add-order works!</p>
+<app-order-form
+  [orderForm]="orderForm"
+  [productOptions]="productOptions"
+  [statusOptions]="statusOptions"
+  [formErrorMessages]="formErrorMessages"
+  [mode]="mode"
+  (submitForm)="onSubmit()"
+  (cancelForm)="onCancel()"
+/>

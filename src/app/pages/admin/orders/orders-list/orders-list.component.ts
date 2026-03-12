@@ -10,6 +10,7 @@ import { PaginationComponent } from '../../../../shared/components/pagination/pa
 import { Order, OrderService } from '../../../../core/services/order.service';
 import { LoadingService } from '../../../../core/services/loading.service';
 import { OrderStatus } from '../../../../shared/enums/enum';
+import { AddOrderComponent } from '../add-order/add-order.component';
 
 @Component({
   selector: 'app-orders-list',
@@ -22,6 +23,7 @@ import { OrderStatus } from '../../../../shared/enums/enum';
     ConfirmationModalComponent,
     CardComponent,
     PaginationComponent,
+    AddOrderComponent,
   ],
   templateUrl: './orders-list.component.html',
   styleUrl: './orders-list.component.css',
@@ -35,7 +37,7 @@ export class OrdersListComponent implements OnInit {
   showDeleteModal = false;
 
   currentPage = 1;
-  pageSize = 9;
+  pageSize = 10;
 
   errorMessage: string = '';
 
@@ -159,5 +161,10 @@ export class OrdersListComponent implements OnInit {
   closeEditModal(): void {
     this.showEditModal = false;
     this.selectedOrder = null;
+  }
+
+  handleOrderSaved(): void {
+    this.loadOrders();
+    this.closeAddModal();
   }
 }

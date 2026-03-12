@@ -44,7 +44,7 @@ export class ProductsListComponent implements OnInit {
   products: Product[] = [];
 
   currentPage = 1;
-  pageSize = 9;
+  pageSize = 10;
 
   errorMessage: string = '';
 

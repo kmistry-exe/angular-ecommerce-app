@@ -23,3 +23,8 @@ export enum OrderStatus {
   DELIVERED = 'Delivered',
   CANCELLED = 'Cancelled',
 }
+
+export enum Mode{
+  CREATE = 'Create',
+  UPDATE = 'Update'
+}

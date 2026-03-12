@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { OrderStatus } from '../../shared/enums/enum';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,6 @@ export interface Order {
   product: string;
   quantity: number;
   amount: number;
-  status: string;
+  status: OrderStatus;
   date: string;
 }

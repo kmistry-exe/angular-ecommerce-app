@@ -2,7 +2,7 @@
   class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
 >
   <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
-    <app-page-header [title]="mode === 'edit' ? 'Edit Product' : 'Add Product'">
+    <app-page-header [title]="mode === Mode.UPDATE ? 'Edit Product' : 'Add Product'">
     </app-page-header>
 
     <form class="space-y-6" [formGroup]="productForm" (ngSubmit)="onSubmit()">
@@ -64,7 +64,7 @@
 
         <app-button
           variant="primary"
-          [label]="mode === 'edit' ? 'Update' : 'Save'"
+          [label]="mode === Mode.UPDATE ? 'Update' : 'Save'"
           icon="fa-bookmark"
           type="submit"
           [disabled]="productForm.invalid"

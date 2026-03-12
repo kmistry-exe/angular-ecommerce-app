@@ -19,7 +19,7 @@
   </app-empty-state>
 
   <div *ngIf="orders.length > 0" class="gap-6">
-    <div class="grid grid-cols-1 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <app-card *ngFor="let order of paginatedOrders">
         <div card-title>
           <span class="text-sm text-gray-600">
@@ -105,5 +105,11 @@
       (cancel)="closeDeleteModal()"
     >
     </app-confirmation-modal>
+
+    <app-add-order
+      *ngIf="showAddModal"
+      (save)="handleOrderSaved()"
+      (close)="closeAddModal()"
+    ></app-add-order>
   </div>
 </div>

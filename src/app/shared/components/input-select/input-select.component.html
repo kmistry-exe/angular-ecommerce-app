@@ -1,13 +1,14 @@
-<div class="w-full mb-2">
+<div class="w-full mb-2 select-wrapper relative">
   <label *ngIf="label" class="block text-sm font-medium mb-2">
     {{ label }}
   </label>
 
   <select
+    *ngIf="!searchable"
     [formControl]="control"
-    class="w-full h-12 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    class="w-full h-12 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
   >
-    <option value="" disabled selected *ngIf="placeholder">
+    <option value="" disabled *ngIf="placeholder">
       {{ placeholder }}
     </option>
 
@@ -16,6 +17,40 @@
     </option>
   </select>
 
+  <div *ngIf="searchable" class="relative">
+    <input
+      type="text"
+      class="w-full h-12 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      [placeholder]="placeholder || 'Select product'"
+      [(ngModel)]="searchText"
+      (focus)="openDropdown()"
+      (input)="filterOptions()"
+      [disabled]="control.disabled"
+      (blur)="handleBlur()"
+    />
+
+    <div
+      *ngIf="dropdownOpen"
+      class="absolute z-20 mt-1 w-full bg-white border rounded-lg shadow max-h-48 overflow-y-auto"
+    >
+      <div
+        *ngFor="let option of filteredOptions"
+        (click)="selectOption(option)"
+        class="px-3 py-2 cursor-pointer hover:bg-indigo-50"
+      >
+        {{ option.label }}
+      </div>
+
+      <div
+        *ngIf="filteredOptions.length === 0"
+        class="px-3 py-2 text-sm text-gray-500"
+      >
+        No results found
+      </div>
+    </div>
+  </div>
+
+  <!-- validation -->
   <div class="min-h-[18px] mt-1">
     <app-input-error [control]="control" [requiredMessage]="requiredMessage" />
   </div>
