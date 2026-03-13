@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import {
+  Mode,
   ProductCategory,
   ProductStatus,
   ValidationMessages,
@@ -22,6 +23,8 @@ import { ProductFormComponent } from '../../../../shared/components/product-form
   styleUrl: './add-products.component.css',
 })
 export class AddProductsComponent {
+  Mode = Mode;
+
   productForm!: FormGroup<{
     name: FormControl<string>;
     category: FormControl<string>;
@@ -39,6 +42,7 @@ export class AddProductsComponent {
 
   formErrorMessages = ValidationMessages;
 
+  @Input() mode: Mode.CREATE | Mode.UPDATE = Mode.CREATE;
   @Output() save = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 

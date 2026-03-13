@@ -24,7 +24,7 @@ import { OrderFormComponent } from '../../../../shared/components/order-form/ord
   imports: [CommonModule, ReactiveFormsModule, OrderFormComponent],
   templateUrl: './add-order.component.html',
 })
-export class AddOrderComponent implements OnInit {
+export class AddOrderComponent {
   Mode = Mode;
 
   orderForm!: FormGroup<{
@@ -64,14 +64,13 @@ export class AddOrderComponent implements OnInit {
       product: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       amount: [{ value: 0, disabled: true }],
-      status: [OrderStatus.PENDING],
+      status:
+        this.mode === Mode.CREATE
+          ? [{ value: OrderStatus.PENDING, disabled: true }]
+          : [OrderStatus.PENDING],
       date: [new Date().toISOString()],
     });
 
-    if (this.mode === Mode.CREATE) {
-      this.orderForm.controls.status.disable();
-    }
-    
     this.loadProducts();
     this.setupAmountCalculation();
   }

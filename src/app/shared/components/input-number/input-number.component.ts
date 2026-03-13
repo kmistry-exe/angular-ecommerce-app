@@ -16,6 +16,4 @@ export class InputNumberComponent {
 
   @Input() requiredMessage: string = 'This field is required';
   @Input() minMessage: string = 'Value is below allowed minimum';
-
-  @Input() disabled: boolean = false;
 }

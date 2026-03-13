@@ -1,4 +1,5 @@
 <div
+  *ngIf="productOptions?.length"
   class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
 >
   <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
@@ -35,7 +36,6 @@
           label="Amount"
           placeholder="Auto calculated"
           [control]="f['amount']"
-          [disabled]="true"
         >
         </app-number>
 
