@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import {
+  Mode,
   ProductCategory,
   ValidationMessages,
 } from '../../../../shared/enums/enum';
@@ -21,6 +22,8 @@ import { ProductFormComponent } from '../../../../shared/components/product-form
   styleUrl: './edit-product.component.css',
 })
 export class EditProductComponent implements OnInit {
+    Mode = Mode;
+  
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -44,9 +47,12 @@ export class EditProductComponent implements OnInit {
 
   productId!: number;
   originalProduct: any;
+
   @Input() product: any;
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
+
+  @Input() mode: Mode.UPDATE | Mode.CREATE = Mode.UPDATE;
 
   isLoading = true;
 

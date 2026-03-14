@@ -1,47 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  Product,
-  ProductService,
-} from '../../../../core/services/product.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { InputButtonComponent } from '../../../../shared/components/input-button/input-button.component';
-import { AddProductsComponent } from '../add-products/add-products.component';
 import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../../shared/components/error-state/error-state.component';
 import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { EditProductComponent } from '../edit-product/edit-product.component';
 import { CardComponent } from '../../../../shared/components/card/card.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination-component';
+import { Order, OrderService } from '../../../../core/services/order.service';
 import { LoadingService } from '../../../../core/services/loading.service';
-import { ProductStatus } from '../../../../shared/enums/enum';
+import { OrderStatus } from '../../../../shared/enums/enum';
+import { AddOrderComponent } from '../add-order/add-order.component';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 @Component({
-  selector: 'app-products-list',
+  selector: 'app-orders-list',
   imports: [
     CommonModule,
     PageHeaderComponent,
     InputButtonComponent,
-    AddProductsComponent,
-    EditProductComponent,
     EmptyStateComponent,
     ErrorStateComponent,
     ConfirmationModalComponent,
     CardComponent,
     PaginationComponent,
+    AddOrderComponent,
+    EditOrderComponent,
   ],
-  templateUrl: './products-list.component.html',
-  styleUrl: './products-list.component.css',
+  templateUrl: './orders-list.component.html',
+  styleUrl: './orders-list.component.css',
 })
-export class ProductsListComponent implements OnInit {
-  isPageLoading = false;
+export class OrdersListComponent implements OnInit {
+  orders: Order[] = [];
+  selectedOrder: any = null;
 
   showAddModal = false;
   showEditModal = false;
   showDeleteModal = false;
-
-  selectedProduct: any = null;
-  products: Product[] = [];
 
   currentPage = 1;
   pageSize = 10;
@@ -49,51 +44,44 @@ export class ProductsListComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private productService: ProductService,
+    private orderService: OrderService,
     private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.loadOrders();
   }
 
-  loadProducts(): void {
-    this.productService.getProducts().subscribe({
-      next: (products) => {
-        this.products = products;
+  loadOrders(): void {
+    this.orderService.getOrders().subscribe({
+      next: (orders) => {
+        this.orders = orders;
       },
       error: (err) => {
         console.error('API Error:', err);
-        this.errorMessage = 'Failed to load products';
+        this.errorMessage = 'Failed to load orders';
       },
     });
   }
 
-  getStatusClass(status: string): string {
-    return status === ProductStatus.ACTIVE
-      ? 'bg-green-100 text-green-700'
-      : 'bg-red-100 text-red-600';
-  }
-
-  openDeleteModal(product: any): void {
-    this.selectedProduct = product;
+  openDeleteModal(order: any): void {
+    this.selectedOrder = order;
     this.showDeleteModal = true;
   }
 
   closeDeleteModal(): void {
     this.showDeleteModal = false;
-    this.selectedProduct = null;
+    this.selectedOrder = null;
   }
-
   confirmDelete(): void {
-    if (!this.selectedProduct) {
-      console.error('No product selected for deletion');
+    if (!this.selectedOrder) {
+      console.error('No order selected for deletion');
       return;
     }
 
-    this.productService.deleteProduct(this.selectedProduct.id).subscribe({
+    this.orderService.deleteOrder(this.selectedOrder.id).subscribe({
       next: () => {
-        this.loadProducts();
+        this.loadOrders();
         this.closeDeleteModal();
       },
       error: (err) => {
@@ -102,36 +90,14 @@ export class ProductsListComponent implements OnInit {
     });
   }
 
-  openAddModal() {
-    this.showAddModal = true;
-  }
-
-  closeAddModal() {
-    this.showAddModal = false;
-  }
-
-  openEditModal(product: any): void {
-    this.selectedProduct = product;
-    this.showEditModal = true;
-  }
-
-  closeEditModal(): void {
-    this.showEditModal = false;
-    this.selectedProduct = null;
-  }
-
-  updateProductTable(updatedProduct: any): void {
-    this.loadProducts();
-  }
-
-  get paginatedProducts(): Product[] {
+  get paginatedOrders(): Order[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    return this.products.slice(startIndex, endIndex);
+    return this.orders.slice(startIndex, endIndex);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.products.length / this.pageSize);
+    return Math.ceil(this.orders.length / this.pageSize);
   }
 
   nextPage(): void {
@@ -159,5 +125,48 @@ export class ProductsListComponent implements OnInit {
         behavior: 'smooth',
       });
     }, 200);
+  }
+
+  getStatusClass(status: string): string {
+    if (status === OrderStatus.DELIVERED) {
+      return 'bg-green-100 text-green-700';
+    }
+
+    if (status === OrderStatus.PENDING) {
+      return 'bg-yellow-100 text-yellow-700';
+    }
+
+    if (status === OrderStatus.SHIPPED) {
+      return 'bg-indigo-100 text-indigo-700';
+    }
+
+    if (status === OrderStatus.CANCELLED) {
+      return 'bg-red-100 text-red-600';
+    }
+
+    return 'bg-gray-100 text-gray-600';
+  }
+
+  openAddModal(): void {
+    this.showAddModal = true;
+  }
+
+  closeAddModal(): void {
+    this.showAddModal = false;
+  }
+
+  openEditModal(order: any): void {
+    this.selectedOrder = order;
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.selectedOrder = null;
+  }
+
+  handleOrderSaved(): void {
+    this.loadOrders();
+    this.closeAddModal();
   }
 }

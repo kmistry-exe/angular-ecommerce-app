@@ -6,15 +6,20 @@
     {{ requiredMessage }}
   </span>
 
-  <span *ngIf="control.errors['email']">
+  <span *ngIf="control.errors['email'] && !control.errors['required']">
     {{ emailMessage }}
   </span>
 
-  <span *ngIf="control.errors['minlength']">
+  <span *ngIf="control.errors['minlength'] && !control.errors['required']">
     {{ minlengthMessage }}
   </span>
 
-  <span *ngIf="control.errors['min']">
+  <span *ngIf="control.errors['min'] && !control.errors['required']">
     {{ minMessage }}
+  </span>
+
+  <span *ngIf="control.errors['max'] && !control.errors['required']">
+    Max quantity allows
+    {{ control.errors["max"].max }} items.
   </span>
 </div>

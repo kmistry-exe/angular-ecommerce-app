@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,7 +9,9 @@ import {
 } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import {
+  Mode,
   ProductCategory,
+  ProductStatus,
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
@@ -21,6 +23,8 @@ import { ProductFormComponent } from '../../../../shared/components/product-form
   styleUrl: './add-products.component.css',
 })
 export class AddProductsComponent {
+  Mode = Mode;
+
   productForm!: FormGroup<{
     name: FormControl<string>;
     category: FormControl<string>;
@@ -38,6 +42,7 @@ export class AddProductsComponent {
 
   formErrorMessages = ValidationMessages;
 
+  @Input() mode: Mode.CREATE | Mode.UPDATE = Mode.CREATE;
   @Output() save = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 
@@ -65,13 +70,13 @@ export class AddProductsComponent {
     const formValue = this.productForm.getRawValue();
 
     const productData = {
-      id: Date.now(), //TODO: Need to check and update
+      id: Date.now(),
       name: formValue.name,
       category: formValue.category,
       price: formValue.price ?? 0,
       stock: formValue.stock ?? 0,
       description: formValue.description,
-      status: 'Active',
+      status: ProductStatus.ACTIVE,
     };
 
     this.productService.addProduct(productData).subscribe({

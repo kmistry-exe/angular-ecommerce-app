@@ -1,0 +1,72 @@
+<div
+  *ngIf="productOptions?.length"
+  class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
+>
+  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
+    <app-page-header
+      [title]="mode === Mode.UPDATE ? 'Edit Order' : 'Add Order'"
+    >
+    </app-page-header>
+
+    <form class="space-y-6" [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <app-text
+        label="Customer Name"
+        placeholder="Enter customer name"
+        [control]="f['customerName']"
+      >
+      </app-text>
+
+      <app-select
+        label="Product"
+        [control]="f['product']"
+        [options]="productOptions"
+        [searchable]="true"
+      >
+      </app-select>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <app-number
+          label="Quantity"
+          placeholder="Enter quantity"
+          [control]="f['quantity']"
+        >
+        </app-number>
+
+        <app-number
+          label="Amount"
+          placeholder="Auto calculated"
+          [control]="f['amount']"
+        >
+        </app-number>
+
+        <app-select
+          label="Status"
+          [control]="f['status']"
+          [options]="statusOptions"
+          [disabled]="mode === Mode.CREATE"
+        >
+        </app-select>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <app-button
+          variant="secondary"
+          label="Cancel"
+          type="button"
+          icon="fa-times"
+          (click)="onCancel()"
+        >
+        </app-button>
+
+        <app-button
+          variant="primary"
+          [label]="mode === Mode.UPDATE ? 'Update' : 'Save'"
+          icon="fa-bookmark"
+          type="submit"
+          [disabled]="orderForm.invalid"
+        >
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>

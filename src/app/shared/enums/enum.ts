@@ -11,3 +11,20 @@ export enum ProductCategory {
   HOME = 'Home',
   BOOKS = 'Books',
 }
+
+export enum ProductStatus {
+  ACTIVE = 'Active',
+  INACTIVE = 'Inactive',
+}
+
+export enum OrderStatus {
+  PENDING = 'Pending',
+  SHIPPED = 'Shipped',
+  DELIVERED = 'Delivered',
+  CANCELLED = 'Cancelled',
+}
+
+export enum Mode{
+  CREATE = 'Create',
+  UPDATE = 'Update'
+}

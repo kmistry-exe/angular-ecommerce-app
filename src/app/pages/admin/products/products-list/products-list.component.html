@@ -20,7 +20,7 @@
   ></app-empty-state>
 
   <div *ngIf="products.length > 0" class="p-4 overflow-x-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <app-card *ngFor="let product of paginatedProducts">
         <div card-title>
           {{ product.name }}
