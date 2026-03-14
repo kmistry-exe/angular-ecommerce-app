@@ -11,6 +11,7 @@ import { Order, OrderService } from '../../../../core/services/order.service';
 import { LoadingService } from '../../../../core/services/loading.service';
 import { OrderStatus } from '../../../../shared/enums/enum';
 import { AddOrderComponent } from '../add-order/add-order.component';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 @Component({
   selector: 'app-orders-list',
@@ -24,6 +25,7 @@ import { AddOrderComponent } from '../add-order/add-order.component';
     CardComponent,
     PaginationComponent,
     AddOrderComponent,
+    EditOrderComponent,
   ],
   templateUrl: './orders-list.component.html',
   styleUrl: './orders-list.component.css',

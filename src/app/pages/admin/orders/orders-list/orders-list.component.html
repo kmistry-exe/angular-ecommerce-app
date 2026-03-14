@@ -111,5 +111,12 @@
       (save)="handleOrderSaved()"
       (close)="closeAddModal()"
     ></app-add-order>
+
+    <app-edit-order
+      *ngIf="showEditModal"
+      [order]="selectedOrder"
+      (save)="handleOrderSaved()"
+      (close)="closeEditModal()"
+    ></app-edit-order>
   </div>
 </div>

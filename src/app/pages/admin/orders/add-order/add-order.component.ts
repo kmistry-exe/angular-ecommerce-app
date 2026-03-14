@@ -15,9 +15,11 @@ import { OrderService } from '../../../../core/services/order.service';
 import {
   Mode,
   OrderStatus,
+  ProductStatus,
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { OrderFormComponent } from '../../../../shared/components/order-form/order-form.component';
+import { formatDate } from '../../../../shared/utils/date.utils';
 
 @Component({
   selector: 'app-add-order',
@@ -58,6 +60,33 @@ export class AddOrderComponent {
     private orderService: OrderService,
   ) {}
 
+  setupValidators(): void {
+    this.orderForm.controls.product.valueChanges.subscribe((productName) => {
+      this.updateQuantityValidator(productName);
+      this.calculateAmount();
+    });
+
+    this.orderForm.controls.quantity.valueChanges.subscribe(() => {
+      this.calculateAmount();
+    });
+  }
+
+  updateQuantityValidator(productName: string): void {
+    const selectedProduct = this.products.find((p) => p.name === productName);
+    const quantityControl = this.orderForm.controls.quantity;
+
+    if (selectedProduct) {
+      quantityControl.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(selectedProduct.stock),
+      ]);
+    } else {
+      quantityControl.setValidators([Validators.required, Validators.min(1)]);
+    }
+    quantityControl.updateValueAndValidity({ emitEvent: false });
+  }
+
   ngOnInit(): void {
     this.orderForm = this.fb.nonNullable.group({
       customerName: ['', Validators.required],
@@ -68,30 +97,28 @@ export class AddOrderComponent {
         this.mode === Mode.CREATE
           ? [{ value: OrderStatus.PENDING, disabled: true }]
           : [OrderStatus.PENDING],
-      date: [new Date().toISOString()],
+      date: [formatDate(new Date())],
     });
 
     this.loadProducts();
-    this.setupAmountCalculation();
+    this.setupValidators();
   }
 
   loadProducts(): void {
     this.productService.getProducts().subscribe((products) => {
-      this.products = products;
+      const currentProduct = this.orderForm.controls.product.value;
+      this.products = products.filter(
+        (p) =>
+          p.status === ProductStatus.ACTIVE ||
+          (currentProduct && p.name === currentProduct),
+      );
 
-      this.productOptions = products.map((p) => ({
+      this.productOptions = this.products.map((p) => ({
         label: p.name,
         value: p.name,
       }));
-    });
-  }
 
-  setupAmountCalculation(): void {
-    this.orderForm.controls.product.valueChanges.subscribe(() => {
-      this.calculateAmount();
-    });
-
-    this.orderForm.controls.quantity.valueChanges.subscribe(() => {
+      this.updateQuantityValidator(currentProduct);
       this.calculateAmount();
     });
   }
@@ -103,7 +130,12 @@ export class AddOrderComponent {
     const selectedProduct = this.products.find((p) => p.name === product);
 
     if (selectedProduct) {
-      const amount = selectedProduct.price * quantity;
+      let effectiveQuantity = quantity;
+      if (quantity > selectedProduct.stock) {
+        effectiveQuantity = selectedProduct.stock;
+      }
+
+      const amount = selectedProduct.price * effectiveQuantity;
 
       this.orderForm.patchValue({ amount }, { emitEvent: false });
     }
@@ -130,7 +162,7 @@ export class AddOrderComponent {
           quantity: 1,
           amount: 0,
           status: OrderStatus.PENDING,
-          date: new Date().toISOString(),
+          date: formatDate(new Date()),
         });
 
         this.save.emit();
