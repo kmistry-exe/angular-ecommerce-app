@@ -1,0 +1,72 @@
+<div class="rounded-xl border bg-white p-4">
+  <app-page-header [title]="title" />
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm text-left">
+      <thead class="text-xs uppercase text-gray-500 border-b">
+        <tr>
+          <th
+            *ngFor="let col of columns"
+            class="py-3"
+            [class]="col.class || ''"
+            [ngClass]="{
+              'text-right': col.align === 'right',
+              'text-center': col.align === 'center',
+            }"
+          >
+            {{ col.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y relative">
+        <tr *ngFor="let item of paginatedItems" class="hover:bg-gray-50">
+          <td
+            *ngFor="let col of columns"
+            class="py-3"
+            [class]="col.class || ''"
+            [ngClass]="{
+              'text-right': col.align === 'right',
+              'text-center': col.align === 'center',
+            }"
+          >
+            <ng-container [ngSwitch]="col.type">
+              <span *ngSwitchCase="'date'">{{
+                item[col.key] | date: "longDate"
+              }}</span>
+              <span *ngSwitchCase="'currency'"
+                >₹ {{ item[col.key] | number }}</span
+              >
+              <span
+                *ngSwitchCase="'status'"
+                class="px-2 py-1 rounded-full text-xs font-medium"
+                [ngClass]="getStatusClasses(item[col.key])"
+              >
+                {{ item[col.key] }}
+              </span>
+              <span
+                *ngSwitchDefault
+                [ngClass]="{ 'font-medium': col.key === 'id' }"
+                >{{ item[col.key] }}</span
+              >
+            </ng-container>
+          </td>
+        </tr>
+        <tr *ngIf="paginatedItems.length === 0">
+          <td
+            [attr.colspan]="columns.length"
+            class="py-4 text-center text-gray-500"
+          >
+            No data found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-pagination
+    class="w-full"
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="goToPage($event)"
+  ></app-pagination>
+</div>
