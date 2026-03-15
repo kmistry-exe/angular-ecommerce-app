@@ -1,0 +1,48 @@
+.mobile-card-nav {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90% !important;
+  max-width: 400px !important;
+  height: auto !important;
+  max-height: 80vh !important;
+  border-radius: 2rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(8px) !important;
+  z-index: 100 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+:host::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+:host:has(.mobile-card-nav)::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+aside {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-width: none;
+}
+
+aside::-webkit-scrollbar {
+  display: none;
+}
+
+main {
+  min-height: calc(100vh - 4rem);
+}

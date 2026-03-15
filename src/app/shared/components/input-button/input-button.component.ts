@@ -25,7 +25,7 @@ export class InputButtonComponent {
 
     const variants = {
       primary:
-        'bg-indigo-600 text-white hover:bg-indigo-700 active:scale-[0.97] shadow-sm',
+        'bg-indigo-600 text-white hover:bg-indigo-600 active:scale-[0.97] shadow-sm',
 
       secondary:
         'bg-gray-200 text-gray-800 hover:bg-gray-300 active:scale-[0.97]',

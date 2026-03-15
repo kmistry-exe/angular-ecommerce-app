@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { InputButtonComponent } from '../../shared/components/input-button/input-button.component';
@@ -18,9 +18,40 @@ import { CommonModule } from '@angular/common';
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css',
 })
-export class AdminLayoutComponent {
+export class AdminLayoutComponent implements OnInit {
   showLogoutConfirm = false;
+  isMobile = false;
+  isMobileMenuOpen = false;
+  userEmail: string | null = '';
+
   constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.userEmail = this.authService.getUserEmail();
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize(): void {
+    this.isMobile = window.innerWidth < 1024;
+    if (!this.isMobile) {
+      this.isMobileMenuOpen = false;
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : 'auto';
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = 'auto';
+  }
 
   logout(): void {
     this.authService.logout();
@@ -32,6 +63,7 @@ export class AdminLayoutComponent {
 
   confirmLogout(): void {
     this.showLogoutConfirm = false;
+    this.closeMobileMenu();
     this.authService.logout();
   }
 

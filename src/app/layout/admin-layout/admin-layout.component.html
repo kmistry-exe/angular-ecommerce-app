@@ -1,49 +1,123 @@
-<div class="flex min-h-screen">
-  <aside
-    class="h-screen w-64 fixed left-0 top-0 bg-gray-900 text-white flex flex-col"
+<div class="flex flex-col min-h-screen bg-gray-50">
+  <header
+    *ngIf="isMobile"
+    class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-50 shrink-0"
   >
-    <div class="p-4 border-b border-gray-700 flex items-center justify-center">
-      <i class="mx-2 fa-solid fa-cart-shopping text-indigo-400"></i>
-      <span class="text-lg font-semibold">Ecommerce CMS</span>
+    <div class="flex items-center gap-3">
+      <i class="fa-solid fa-cart-shopping text-indigo-600 text-xl"></i>
+      <span class="text-lg font-bold text-gray-900 uppercase">
+        Ecommerce CMS
+      </span>
     </div>
+    <app-button
+      label="Menu"
+      variant="primary"
+      icon="fa-bars"
+      (click)="toggleMobileMenu()"
+    />
+  </header>
 
-    <nav class="flex-1 overflow-y-auto p-3 space-y-1">
-      <a
-        routerLink="/admin/dashboard"
-        routerLinkActive="bg-slate-800 font-semibold"
-        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 transition"
-      >
-        <i class="fa-solid fa-hashtag"></i>
-        <span>Dashboard</span>
-      </a>
-      <a
-        routerLink="/admin/products"
-        routerLinkActive="bg-slate-800 font-semibold"
-        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 transition"
-      >
-        <i class="fa-solid fa-box"></i>
-        <span>Products</span>
-      </a>
-      <a
-        routerLink="/admin/orders"
-        routerLinkActive="bg-slate-800 font-semibold"
-        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 transition"
-      >
-        <i class="fa-solid fa-boxes-packing"></i>
-        <span>Orders</span>
-      </a>
-    </nav>
+  <div class="flex flex-1" [class.pt-16]="isMobile">
+    <aside
+      class="bg-gray-900 text-white flex flex-col z-40 transition-all duration-300"
+      [class.fixed]="true"
+      [class.left-0]="true"
+      [class.top-0]="true"
+      [class.h-screen]="true"
+      [class.w-64]="!isMobile"
+      [class.hidden]="isMobile && !isMobileMenuOpen"
+      [class.mobile-card-nav]="isMobile && isMobileMenuOpen"
+    >
+      <div class="flex flex-col items-center p-4">
+        <div
+          class="w-full flex items-center {{
+            isMobile ? 'justify-between' : 'justify-center'
+          }}"
+        >
+          <div>
+            <i
+              class="mx-2 fa-solid fa-cart-shopping text-indigo-400 text-xl"
+            ></i>
+            <span class="text-lg font-bold">Ecommerce CMS</span>
+          </div>
+          <div *ngIf="isMobile">
+            <button (click)="closeMobileMenu()" class="p-2 text-gray-400">
+              <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <div class="p-4 border-t border-gray-700 text-center">
-      <app-button
-        label="Logout"
-        variant="danger"
-        icon="fa-solid fa-right-from-bracket"
-        class="w-full"
-        (click)="openLogoutConfirm()"
-      />
-    </div>
-  </aside>
+      <hr class="w-full border-gray-700" />
+
+      <div class="my-3 text-center">
+        <span class="text-xs text-gray-100"> Logged in as </span>
+        <br />
+        <span class="text-md text-indigo-600">
+          {{ userEmail }}
+        </span>
+      </div>
+
+      <hr class="w-full border-gray-700" />
+
+      <nav class="flex-1 overflow-y-auto p-3 space-y-1">
+        <a
+          routerLink="/admin/dashboard"
+          routerLinkActive="bg-indigo-600 font-semibold"
+          (click)="closeMobileMenu()"
+          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+        >
+          <i class="fa-solid fa-hashtag"></i>
+          <span>Dashboard</span>
+        </a>
+        <a
+          routerLink="/admin/products"
+          routerLinkActive="bg-indigo-600 font-semibold"
+          (click)="closeMobileMenu()"
+          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+        >
+          <i class="fa-solid fa-box"></i>
+          <span>Products</span>
+        </a>
+        <a
+          routerLink="/admin/orders"
+          routerLinkActive="bg-indigo-600 font-semibold"
+          (click)="closeMobileMenu()"
+          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+        >
+          <i class="fa-solid fa-boxes-packing"></i>
+          <span>Orders</span>
+        </a>
+      </nav>
+
+      <div class="p-4 border-t border-gray-700 text-center">
+        <app-button
+          label="Logout"
+          variant="danger"
+          icon="fa-solid fa-right-from-bracket"
+          class="w-full"
+          (click)="openLogoutConfirm()"
+        />
+      </div>
+    </aside>
+
+    <main
+      class="flex-1 transition-all duration-300 p-6 pb-20 overflow-y-auto"
+      [class.ml-64]="!isMobile"
+    >
+      <div class="max-w-7xl mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <footer
+      class="fixed bottom-0 right-0 h-10 bg-white border-t border-gray-200 flex items-center justify-center z-30 transition-all duration-300"
+      [class.left-64]="!isMobile"
+      [class.left-0]="isMobile"
+    >
+      <p class="text-xs text-gray-500">© 2026 E-commerce Admin</p>
+    </footer>
+  </div>
 
   <app-confirmation-modal
     *ngIf="showLogoutConfirm"
@@ -52,16 +126,4 @@
     (confirm)="confirmLogout()"
     (cancel)="cancelLogout()"
   />
-
-  <div class="flex-1 ml-64 flex flex-col min-h-screen">
-    <main class="flex-1 p-6 pb-16">
-      <router-outlet></router-outlet>
-    </main>
-
-    <footer
-      class="fixed bottom-0 left-64 right-0 h-10 bg-white border-t border-gray-200 flex items-center justify-center z-40"
-    >
-      <p class="text-xs text-gray-500">© 2026 E-commerce Admin</p>
-    </footer>
-  </div>
 </div>
