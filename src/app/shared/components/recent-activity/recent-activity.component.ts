@@ -83,7 +83,7 @@ export class RecentActivityComponent implements OnInit, OnChanges {
     }
 
     if (status === OrderStatus.SHIPPED) {
-      return 'bg-indigo-100 text-indigo-700';
+      return 'bg-indigo-100 text-indigo-600';
     }
 
     if (status === OrderStatus.CANCELLED || status === ProductStatus.INACTIVE) {

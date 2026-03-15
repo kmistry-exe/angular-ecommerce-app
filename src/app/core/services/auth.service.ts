@@ -9,6 +9,7 @@ import { LoadingService } from './loading.service';
 export class AuthService {
   private readonly TOKEN_KEY = 'admin_token';
   private readonly STORAGE_KEY = 'admin_logged_in';
+  private readonly USER_EMAIL_KEY = 'admin_user_email';
 
   constructor(private router: Router, private loadingService: LoadingService) {}
 
@@ -19,6 +20,7 @@ export class AuthService {
     if (email === validEmail && password === validPassword) {
       localStorage.setItem(this.STORAGE_KEY, 'true');
       localStorage.setItem(this.TOKEN_KEY, 'mock-admin-token');
+      localStorage.setItem(this.USER_EMAIL_KEY, email);
       return true;
     }
 
@@ -29,11 +31,20 @@ export class AuthService {
     this.loadingService.show();
     localStorage.removeItem(this.STORAGE_KEY);
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_EMAIL_KEY);
     this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
     return localStorage.getItem(this.STORAGE_KEY) === 'true';
+  }
+
+  getUserEmail(): string | null {
+    const email = localStorage.getItem(this.USER_EMAIL_KEY);
+    if (!email && this.isAuthenticated()) {
+      return environment.adminAuth.email;
+    }
+    return email;
   }
 
   getToken(): string | null {
