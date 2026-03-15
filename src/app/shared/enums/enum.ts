@@ -24,7 +24,21 @@ export enum OrderStatus {
   CANCELLED = 'Cancelled',
 }
 
-export enum Mode{
+export enum Mode {
   CREATE = 'Create',
-  UPDATE = 'Update'
+  UPDATE = 'Update',
+}
+
+export enum ColumnType {
+  TEXT = 'text',
+  DATE = 'date',
+  CURRENCY = 'currency',
+  STATUS = 'status',
+  ACTION = 'action',
+}
+
+export enum ColumnAlign {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
 }

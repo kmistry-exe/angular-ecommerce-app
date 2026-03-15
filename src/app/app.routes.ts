@@ -9,6 +9,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { OrdersListComponent } from './pages/admin/orders/orders-list/orders-list.component';
 import { AddOrderComponent } from './pages/admin/orders/add-order/add-order.component';
 import { EditOrderComponent } from './pages/admin/orders/edit-order/edit-order.component';
+import { ViewOrderComponent } from './pages/admin/orders/view-order/view-order.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,10 @@ export const routes: Routes = [
       {
         path: 'orders/edit/:id',
         component: EditOrderComponent,
+      },
+      {
+        path: 'orders/view/:id',
+        component: ViewOrderComponent,
       },
       {
         path: '',

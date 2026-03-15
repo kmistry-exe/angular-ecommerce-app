@@ -11,6 +11,13 @@
     </div>
 
     <div class="flex items-center gap-2">
+      <app-button
+        *ngIf="viewAction"
+        variant="secondary"
+        label="View All"
+        icon="fa-eye"
+        (click)="onView()"
+      ></app-button>
       <ng-content></ng-content>
     </div>
   </div>

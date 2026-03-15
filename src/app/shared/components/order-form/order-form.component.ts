@@ -10,7 +10,6 @@ import { Mode } from '../../enums/enum';
 
 @Component({
   selector: 'app-order-form',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

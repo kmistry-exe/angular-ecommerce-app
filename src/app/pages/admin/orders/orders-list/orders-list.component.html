@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <hr class="my-4 border-gray-200" />
+        <hr class="my-3 border-gray-200" />
 
         <div card-actions class="flex gap-3 justify-center md:justify-end">
           <app-button
@@ -118,5 +118,11 @@
       (save)="handleOrderSaved()"
       (close)="closeEditModal()"
     ></app-edit-order>
+
+    <app-view-order
+      *ngIf="showViewModal"
+      [order]="selectedOrder"
+      (closeView)="closeViewModal()"
+    ></app-view-order>
   </div>
 </div>

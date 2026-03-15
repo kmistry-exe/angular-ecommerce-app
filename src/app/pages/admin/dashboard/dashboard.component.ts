@@ -1,58 +1,123 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { StatCardComponent } from '../../../components/stat-card/stat-card.component';
-import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
-import { DashboardRecentOrdersComponent } from './dashboard-recent-orders/dashboard-recent-orders.component';
+import { Component, OnInit } from '@angular/core';
+import { StatCardComponent } from '../../../shared/components/stat-card/stat-card.component';
+import {
+  RecentActivityComponent,
+  Column,
+} from '../../../shared/components/recent-activity/recent-activity.component';
 import {
   Product,
   ProductService,
 } from '../../../core/services/product.service';
+import { Order, OrderService } from '../../../core/services/order.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
+import {
+  OrderStatus,
+  ColumnType,
+  ColumnAlign,
+} from '../../../shared/enums/enum';
+import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
+import { ViewOrderComponent } from '../orders/view-order/view-order.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     CommonModule,
     StatCardComponent,
-    DashboardChartComponent,
-    DashboardRecentOrdersComponent,
+    RecentActivityComponent,
     PageHeaderComponent,
     ErrorStateComponent,
+    ViewOrderComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   errorMessage: string = '';
-  stats = [
+  showViewModal = false;
+  selectedOrder: Order | null = null;
+  stats: { label: string; value: number; prefix?: string }[] = [
     { label: 'Total Products', value: 0 },
-    { label: 'Total Stock Value', value: 0, prefix: '₹' },
+    { label: 'Total Orders', value: 0 },
+    { label: 'Completed Orders', value: 0 },
+    { label: 'Total Users', value: 1250 },
   ];
 
-  constructor(private productService: ProductService) {}
+  recentOrders: Order[] = [];
+  recentOrdersColumns: Column[] = [
+    { key: 'id', label: 'Order ID' },
+    { key: 'customerName', label: 'Customer' },
+    { key: 'date', label: 'Date', type: ColumnType.DATE },
+    {
+      key: 'amount',
+      label: 'Amount',
+      type: ColumnType.CURRENCY,
+      align: ColumnAlign.CENTER,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: ColumnType.STATUS,
+      align: ColumnAlign.CENTER,
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      type: ColumnType.ACTION,
+      align: ColumnAlign.RIGHT,
+    },
+  ];
+
+  constructor(
+    private productService: ProductService,
+    private orderService: OrderService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadAnalytics();
   }
 
   private loadAnalytics(): void {
-    this.productService.getProducts().subscribe({
-      next: (products: Product[]) => {
+    forkJoin({
+      products: this.productService.getProducts(),
+      orders: this.orderService.getOrders(),
+    }).subscribe({
+      next: ({ products, orders }) => {
         const totalProducts = products.length;
-
-        const totalStockValue = products.reduce((total, product) => {
-          return total + product.price * product.stock;
-        }, 0);
+        const totalOrders = orders.length;
+        const completedOrders = orders.filter(
+          (o) => o.status === OrderStatus.DELIVERED,
+        ).length;
 
         this.stats = [
           { label: 'Total Products', value: totalProducts },
-          { label: 'Total Stock Value', value: totalStockValue, prefix: '₹' },
+          { label: 'Total Orders', value: totalOrders },
+          { label: 'Completed Orders', value: completedOrders },
+          { label: 'Total Users', value: 1250 },
         ];
+
+        this.recentOrders = [...orders].sort((a, b) => b.id - a.id);
       },
       error: () => {
         this.errorMessage = 'Failed to load dashboard analytics';
       },
     });
+  }
+
+  viewAllOrders() {
+    this.router.navigate(['/admin/orders']);
+  }
+
+  viewOrder(order: Order) {
+    this.selectedOrder = order;
+    this.showViewModal = true;
+  }
+
+  closeViewModal() {
+    this.showViewModal = false;
+    this.selectedOrder = null;
   }
 }

@@ -1,0 +1,11 @@
+<div class="w-full mb-2">
+  <label *ngIf="label" class="block text-sm font-medium mb-2 text-gray-500">
+    {{ label }}
+  </label>
+  <div
+    class="w-full h-12 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 flex items-center text-gray-900 font-medium"
+  >
+    <ng-content *ngIf="!value; else valueTemplate"></ng-content>
+    <ng-template #valueTemplate>{{ value }}</ng-template>
+  </div>
+</div>

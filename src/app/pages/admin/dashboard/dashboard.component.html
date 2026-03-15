@@ -2,7 +2,7 @@
   <app-page-header title="Dashboard" subtitle="Overview of store performance" />
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <ng-container>
+    <ng-container *ngIf="!errorMessage">
       <app-stat-card
         *ngFor="let stat of stats"
         [label]="stat.label"
@@ -11,27 +11,25 @@
       />
     </ng-container>
 
-    <app-error-state
-      *ngIf="errorMessage"
-      [message]="errorMessage"
-    ></app-error-state>
+    <div class="col-span-1 sm:col-span-2 lg:col-span-4" *ngIf="errorMessage">
+      <app-error-state [message]="errorMessage"></app-error-state>
+    </div>
   </div>
 
-  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="lg:col-span-1 rounded-xl border bg-white p-4">
-      <h2 class="text-lg font-medium mb-4">Sales Overview</h2>
-
-      <div class="h-80">
-        <app-dashboard-chart></app-dashboard-chart>
-      </div>
-    </div>
-
-    <div class="rounded-xl border bg-white p-4">
-      <h2 class="text-lg font-medium mb-4">Recent Orders</h2>
-
-      <div class="h-80">
-        <app-dashboard-recent-orders></app-dashboard-recent-orders>
-      </div>
-    </div>
+  <section class="mt-6" *ngIf="!errorMessage">
+    <app-recent-activity
+      title="Recent Orders"
+      [items]="recentOrders"
+      [columns]="recentOrdersColumns"
+      [pageSize]="5"
+      (onViewAll)="viewAllOrders()"
+      (onViewItem)="viewOrder($event)"
+    ></app-recent-activity>
   </section>
+
+  <app-view-order
+    *ngIf="showViewModal"
+    [order]="selectedOrder"
+    (closeView)="closeViewModal()"
+  ></app-view-order>
 </section>
