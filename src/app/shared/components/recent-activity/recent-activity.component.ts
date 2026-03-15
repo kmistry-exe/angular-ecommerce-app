@@ -1,8 +1,22 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 import { PaginationComponent } from '../pagination/pagination-component';
-import { ColumnType, ColumnAlign, OrderStatus, ProductStatus } from '../../enums/enum';
+import { InputButtonComponent } from '../input-button/input-button.component';
+import {
+  ColumnType,
+  ColumnAlign,
+  OrderStatus,
+  ProductStatus,
+} from '../../enums/enum';
 
 export interface Column {
   key: string;
@@ -14,14 +28,22 @@ export interface Column {
 
 @Component({
   selector: 'app-recent-activity',
-  imports: [CommonModule, PageHeaderComponent, PaginationComponent],
-  templateUrl: './recent-activity.component.html'
+  imports: [
+    CommonModule,
+    PageHeaderComponent,
+    PaginationComponent,
+    InputButtonComponent,
+  ],
+  templateUrl: './recent-activity.component.html',
 })
 export class RecentActivityComponent implements OnInit, OnChanges {
   @Input() title: string = 'Recent Activity';
   @Input() items: any[] = [];
   @Input() columns: Column[] = [];
   @Input() pageSize: number = 5;
+
+  @Output() onViewItem = new EventEmitter<any>();
+  @Output() onViewAll = new EventEmitter<void>();
 
   currentPage: number = 1;
   totalPages: number = 1;
@@ -45,7 +67,10 @@ export class RecentActivityComponent implements OnInit, OnChanges {
   goToPage(page: number) {
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
-    this.paginatedItems = this.items.slice(startIndex, startIndex + this.pageSize);
+    this.paginatedItems = this.items.slice(
+      startIndex,
+      startIndex + this.pageSize,
+    );
   }
 
   getStatusClasses(status: string): string {
@@ -66,5 +91,13 @@ export class RecentActivityComponent implements OnInit, OnChanges {
     }
 
     return 'bg-gray-100 text-gray-600';
+  }
+
+  viewItem(item: any) {
+    this.onViewItem.emit(item);
+  }
+
+  viewAllItems() {
+    this.onViewAll.emit();
   }
 }

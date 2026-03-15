@@ -34,6 +34,7 @@ export enum ColumnType {
   DATE = 'date',
   CURRENCY = 'currency',
   STATUS = 'status',
+  ACTION = 'action',
 }
 
 export enum ColumnAlign {

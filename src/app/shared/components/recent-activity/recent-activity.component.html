@@ -1,5 +1,10 @@
 <div class="rounded-xl border bg-white p-4">
-  <app-page-header [title]="title" />
+  <app-page-header
+    [title]="title"
+    [viewAction]="onViewAll.observed"
+    (view)="viewAllItems()"
+  >
+  </app-page-header>
 
   <div class="overflow-x-auto">
     <table class="min-w-full text-sm text-left">
@@ -7,7 +12,7 @@
         <tr>
           <th
             *ngFor="let col of columns"
-            class="py-3"
+            class="py-3 px-4"
             [class]="col.class || ''"
             [ngClass]="{
               'text-right': col.align === 'right',
@@ -22,7 +27,7 @@
         <tr *ngFor="let item of paginatedItems" class="hover:bg-gray-50">
           <td
             *ngFor="let col of columns"
-            class="py-3"
+            class="py-3 px-4"
             [class]="col.class || ''"
             [ngClass]="{
               'text-right': col.align === 'right',
@@ -31,17 +36,24 @@
           >
             <ng-container [ngSwitch]="col.type">
               <span *ngSwitchCase="'date'">{{
-                item[col.key] | date: "longDate"
+                item[col.key] | date: "dd MMM yyyy"
               }}</span>
-              <span *ngSwitchCase="'currency'"
-                >₹ {{ item[col.key] | number }}</span
-              >
+              <span *ngSwitchCase="'currency'">
+                ₹ {{ item[col.key] | number }}
+              </span>
               <span
                 *ngSwitchCase="'status'"
                 class="px-2 py-1 rounded-full text-xs font-medium"
                 [ngClass]="getStatusClasses(item[col.key])"
               >
                 {{ item[col.key] }}
+              </span>
+              <span *ngSwitchCase="'action'">
+                <app-button
+                  variant="secondary"
+                  label="View"
+                  (click)="viewItem(item)"
+                ></app-button>
               </span>
               <span
                 *ngSwitchDefault

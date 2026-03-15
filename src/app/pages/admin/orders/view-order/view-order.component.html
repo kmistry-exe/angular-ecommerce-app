@@ -1,0 +1,51 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
+>
+  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
+    <app-page-header title="Order Details"></app-page-header>
+
+    <div class="space-y-6" *ngIf="order">
+      <app-input-view
+        label="Customer Name"
+        [value]="order.customerName"
+      ></app-input-view>
+
+      <app-input-view label="Product" [value]="order.product"></app-input-view>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <app-input-view
+          label="Quantity"
+          [value]="order.quantity"
+        ></app-input-view>
+
+        <app-input-view label="Amount">
+          <span>₹ {{ order.amount | number }}</span>
+        </app-input-view>
+
+        <app-input-view label="Status" [value]="order.status"></app-input-view>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <div class="flex justify-end">
+        <app-button
+          variant="secondary"
+          label="Close"
+          icon="fa-times"
+          (click)="close()"
+        ></app-button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="text-red-600 text-center py-4">
+      {{ errorMessage }}
+      <div class="mt-4">
+        <app-button
+          variant="secondary"
+          label="Back"
+          (click)="close()"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+</div>

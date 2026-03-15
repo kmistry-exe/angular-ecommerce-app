@@ -18,6 +18,8 @@ import {
   ColumnAlign,
 } from '../../../shared/enums/enum';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
+import { ViewOrderComponent } from '../orders/view-order/view-order.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,12 +29,15 @@ import { forkJoin } from 'rxjs';
     RecentActivityComponent,
     PageHeaderComponent,
     ErrorStateComponent,
+    ViewOrderComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   errorMessage: string = '';
+  showViewModal = false;
+  selectedOrder: Order | null = null;
   stats: { label: string; value: number; prefix?: string }[] = [
     { label: 'Total Products', value: 0 },
     { label: 'Total Orders', value: 0 },
@@ -49,7 +54,7 @@ export class DashboardComponent implements OnInit {
       key: 'amount',
       label: 'Amount',
       type: ColumnType.CURRENCY,
-      align: ColumnAlign.RIGHT,
+      align: ColumnAlign.CENTER,
     },
     {
       key: 'status',
@@ -57,11 +62,18 @@ export class DashboardComponent implements OnInit {
       type: ColumnType.STATUS,
       align: ColumnAlign.CENTER,
     },
+    {
+      key: 'action',
+      label: 'Action',
+      type: ColumnType.ACTION,
+      align: ColumnAlign.RIGHT,
+    },
   ];
 
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -93,5 +105,19 @@ export class DashboardComponent implements OnInit {
         this.errorMessage = 'Failed to load dashboard analytics';
       },
     });
+  }
+
+  viewAllOrders() {
+    this.router.navigate(['/admin/orders']);
+  }
+
+  viewOrder(order: Order) {
+    this.selectedOrder = order;
+    this.showViewModal = true;
+  }
+
+  closeViewModal() {
+    this.showViewModal = false;
+    this.selectedOrder = null;
   }
 }

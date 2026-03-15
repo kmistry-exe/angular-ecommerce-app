@@ -22,6 +22,14 @@
       [items]="recentOrders"
       [columns]="recentOrdersColumns"
       [pageSize]="5"
+      (onViewAll)="viewAllOrders()"
+      (onViewItem)="viewOrder($event)"
     ></app-recent-activity>
   </section>
+
+  <app-view-order
+    *ngIf="showViewModal"
+    [order]="selectedOrder"
+    (closeView)="closeViewModal()"
+  ></app-view-order>
 </section>

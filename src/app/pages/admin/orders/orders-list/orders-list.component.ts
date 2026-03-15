@@ -12,6 +12,8 @@ import { LoadingService } from '../../../../core/services/loading.service';
 import { OrderStatus } from '../../../../shared/enums/enum';
 import { AddOrderComponent } from '../add-order/add-order.component';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
+import { ViewOrderComponent } from '../view-order/view-order.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-orders-list',
@@ -26,6 +28,7 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
     PaginationComponent,
     AddOrderComponent,
     EditOrderComponent,
+    ViewOrderComponent,
   ],
   templateUrl: './orders-list.component.html',
   styleUrl: './orders-list.component.css',
@@ -37,15 +40,17 @@ export class OrdersListComponent implements OnInit {
   showAddModal = false;
   showEditModal = false;
   showDeleteModal = false;
+  showViewModal = false;
 
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 6;
 
   errorMessage: string = '';
 
   constructor(
     private orderService: OrderService,
     private loadingService: LoadingService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -162,6 +167,16 @@ export class OrdersListComponent implements OnInit {
 
   closeEditModal(): void {
     this.showEditModal = false;
+    this.selectedOrder = null;
+  }
+
+  viewOrder(order: any): void {
+    this.selectedOrder = order;
+    this.showViewModal = true;
+  }
+
+  closeViewModal(): void {
+    this.showViewModal = false;
     this.selectedOrder = null;
   }
 
