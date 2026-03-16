@@ -60,7 +60,7 @@ export class OrdersListComponent implements OnInit {
   loadOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (orders) => {
-        this.orders = orders;
+        this.orders = orders.sort((a, b) => b.id - a.id);
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -86,8 +86,26 @@ export class OrdersListComponent implements OnInit {
 
     this.orderService.deleteOrder(this.selectedOrder.id).subscribe({
       next: () => {
-        this.loadOrders();
-        this.closeDeleteModal();
+        this.orderService.getOrders().subscribe({
+          next: (orders) => {
+            // Sort and update list
+            this.orders = orders.sort((a, b) => b.id - a.id);
+            
+            // Adjust current page if the deleted item was the last one on that page
+            const totalPages = Math.ceil(this.orders.length / this.pageSize);
+            if (this.currentPage > totalPages && totalPages > 0) {
+              this.currentPage = totalPages;
+            } else if (this.orders.length === 0) {
+              this.currentPage = 1;
+            }
+            
+            this.closeDeleteModal();
+          },
+          error: (err) => {
+            console.error('API Error after delete:', err);
+            this.closeDeleteModal();
+          }
+        });
       },
       error: (err) => {
         console.error('Delete API Error:', err);

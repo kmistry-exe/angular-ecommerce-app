@@ -10,6 +10,7 @@ import { OrdersListComponent } from './pages/admin/orders/orders-list/orders-lis
 import { AddOrderComponent } from './pages/admin/orders/add-order/add-order.component';
 import { EditOrderComponent } from './pages/admin/orders/edit-order/edit-order.component';
 import { ViewOrderComponent } from './pages/admin/orders/view-order/view-order.component';
+// import { UsersListComponent } from './pages/admin/users/users-list/users-list.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,12 @@ export const routes: Routes = [
         path: 'orders/view/:id',
         component: ViewOrderComponent,
       },
+      /*
+      {
+        path: 'users',
+        component: UsersListComponent,
+      },
+      */
       {
         path: '',
         redirectTo: 'dashboard',

@@ -60,7 +60,7 @@ export class ProductsListComponent implements OnInit {
   loadProducts(): void {
     this.productService.getProducts().subscribe({
       next: (products) => {
-        this.products = products;
+        this.products = products.sort((a, b) => b.id - a.id);
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -93,8 +93,26 @@ export class ProductsListComponent implements OnInit {
 
     this.productService.deleteProduct(this.selectedProduct.id).subscribe({
       next: () => {
-        this.loadProducts();
-        this.closeDeleteModal();
+        this.productService.getProducts().subscribe({
+          next: (products) => {
+            // Sort and update list
+            this.products = products.sort((a, b) => b.id - a.id);
+            
+            // Adjust current page if the deleted item was the last one on that page
+            const totalPages = Math.ceil(this.products.length / this.pageSize);
+            if (this.currentPage > totalPages && totalPages > 0) {
+              this.currentPage = totalPages;
+            } else if (this.products.length === 0) {
+              this.currentPage = 1;
+            }
+            
+            this.closeDeleteModal();
+          },
+          error: (err) => {
+            console.error('API Error after delete:', err);
+            this.closeDeleteModal();
+          }
+        });
       },
       error: (err) => {
         console.error('Delete API Error:', err);
