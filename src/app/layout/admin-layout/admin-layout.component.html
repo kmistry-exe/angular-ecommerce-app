@@ -88,6 +88,17 @@
           <i class="fa-solid fa-boxes-packing"></i>
           <span>Orders</span>
         </a>
+        <!-- Coming Soon: Users Module
+        <a
+          routerLink="/admin/users"
+          routerLinkActive="bg-indigo-600 font-semibold"
+          (click)="closeMobileMenu()"
+          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+        >
+          <i class="fa-solid fa-users"></i>
+          <span>Users</span>
+        </a>
+        -->
       </nav>
 
       <div class="p-4 border-t border-gray-700 text-center">
@@ -111,11 +122,15 @@
     </main>
 
     <footer
-      class="fixed bottom-0 right-0 h-10 bg-white border-t border-gray-200 flex items-center justify-center z-30 transition-all duration-300"
+      class="fixed bottom-0 right-0 h-10 bg-white border-t border-gray-200 flex items-center justify-between px-6 z-30 transition-all duration-300"
       [class.left-64]="!isMobile"
       [class.left-0]="isMobile"
     >
-      <p class="text-xs text-gray-500">© 2026 E-commerce Admin</p>
+      <p class="text-xs text-gray-500 font-medium italic">E-commerce CMS</p>
+      <a href="https://github.com/your-repo-link" target="_blank" class="flex items-center gap-2 text-xs text-gray-500 hover:text-indigo-600 transition">
+        <i class="fa-brands fa-github text-sm"></i>
+        <span>Github Repository</span>
+      </a>
     </footer>
   </div>
 
