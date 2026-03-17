@@ -19,7 +19,7 @@ import {
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { OrderFormComponent } from '../../../../shared/components/order-form/order-form.component';
-import { formatDate } from '../../../../shared/utils/date.utils';
+import { formatISODate } from '../../../../shared/utils/date.utils';
 
 @Component({
   selector: 'app-edit-order',
@@ -32,11 +32,11 @@ export class EditOrderComponent implements OnInit {
 
   orderForm!: FormGroup<{
     customerName: FormControl<string>;
-    product: FormControl<string>;
+    productId: FormControl<number | null>;
     quantity: FormControl<number>;
     amount: FormControl<number>;
     status: FormControl<OrderStatus>;
-    date: FormControl<string>;
+    createdAt: FormControl<string>;
   }>;
 
   formErrorMessages = ValidationMessages;
@@ -49,7 +49,7 @@ export class EditOrderComponent implements OnInit {
 
   products: Product[] = [];
 
-  productOptions: { label: string; value: string }[] = [];
+  productOptions: { label: string; value: number }[] = [];
 
   statusOptions = Object.values(OrderStatus).map((status) => ({
     label: status,
@@ -66,8 +66,8 @@ export class EditOrderComponent implements OnInit {
   ) {}
 
   setupValidators(): void {
-    this.orderForm.controls.product.valueChanges.subscribe((productName) => {
-      this.updateQuantityValidator(productName);
+    this.orderForm.controls.productId.valueChanges.subscribe((productId) => {
+      this.updateQuantityValidator(productId as number);
       this.calculateAmount();
     });
 
@@ -76,8 +76,8 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
-  updateQuantityValidator(productName: string): void {
-    const selectedProduct = this.products.find((p) => p.name === productName);
+  updateQuantityValidator(productId: number): void {
+    const selectedProduct = this.products.find((p) => p.id === productId);
     const quantityControl = this.orderForm.controls.quantity;
 
     if (selectedProduct) {
@@ -95,18 +95,25 @@ export class EditOrderComponent implements OnInit {
   ngOnInit(): void {
     this.orderForm = this.fb.nonNullable.group({
       customerName: ['', Validators.required],
-      product: ['', Validators.required],
+      productId: [null as number | null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       amount: [{ value: 0, disabled: true }],
       status: [OrderStatus.PENDING],
-      date: [formatDate(new Date())],
+      createdAt: [''],
     });
 
     if (this.order) {
       this.orderId = this.order.id;
       this.originalOrder = this.order;
 
-      this.orderForm.patchValue(this.order);
+      this.orderForm.patchValue({
+        customerName: this.order.customerName,
+        productId: this.order.productId,
+        quantity: this.order.quantity,
+        amount: this.order.amount,
+        status: this.order.status,
+        createdAt: this.order.createdAt,
+      });
     }
 
     this.loadProducts();
@@ -115,26 +122,26 @@ export class EditOrderComponent implements OnInit {
 
   loadProducts(): void {
     this.productService.getProducts().subscribe((products) => {
-      const currentProduct = this.orderForm.controls.product.value;
+      const currentProductId = this.orderForm.controls.productId.value;
       this.products = products.filter(
-        (p) => p.status === ProductStatus.ACTIVE || p.name === currentProduct,
+        (p) => p.status === ProductStatus.ACTIVE || p.id === currentProductId,
       );
 
       this.productOptions = this.products.map((p) => ({
         label: p.name,
-        value: p.name,
+        value: p.id,
       }));
 
-      this.updateQuantityValidator(currentProduct);
+      this.updateQuantityValidator(currentProductId as number);
       this.calculateAmount();
     });
   }
 
   calculateAmount(): void {
-    const product = this.orderForm.controls.product.value;
+    const productId = this.orderForm.controls.productId.value;
     const quantity = this.orderForm.controls.quantity.value;
 
-    const selectedProduct = this.products.find((p) => p.name === product);
+    const selectedProduct = this.products.find((p) => p.id === productId);
 
     if (selectedProduct) {
       // Cap the quantity to the product's maximum stock for amount calculation
@@ -164,11 +171,18 @@ export class EditOrderComponent implements OnInit {
 
     const updatedOrder = {
       ...this.originalOrder,
-      ...formValue,
+      customerName: formValue.customerName,
+      productId: formValue.productId,
+      quantity: formValue.quantity,
+      amount: formValue.amount,
+      status: formValue.status,
+      createdAt: formValue.createdAt
+        ? formatISODate(new Date(formValue.createdAt))
+        : formatISODate(new Date()),
       id: this.orderId,
     };
 
-    this.orderService.updateOrder(updatedOrder).subscribe({
+    this.orderService.updateOrder(updatedOrder as any).subscribe({
       next: () => {
         this.save.emit(updatedOrder);
         this.close.emit();

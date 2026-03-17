@@ -8,12 +8,9 @@ import {
   FormControl,
 } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
-import {
-  Mode,
-  ProductCategory,
-  ValidationMessages,
-} from '../../../../shared/enums/enum';
+import { Mode, ValidationMessages } from '../../../../shared/enums/enum';
 import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
+import { formatISODate } from '../../../../shared/utils/date.utils';
 
 @Component({
   selector: 'app-edit-product',
@@ -22,8 +19,8 @@ import { ProductFormComponent } from '../../../../shared/components/product-form
   styleUrl: './edit-product.component.css',
 })
 export class EditProductComponent implements OnInit {
-    Mode = Mode;
-  
+  Mode = Mode;
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -31,18 +28,13 @@ export class EditProductComponent implements OnInit {
 
   productForm!: FormGroup<{
     name: FormControl<string>;
-    category: FormControl<string>;
+    categoryId: FormControl<number | null>;
     price: FormControl<number | null>;
     stock: FormControl<number | null>;
     description: FormControl<string>;
   }>;
 
-  categoryOptions = [
-    { label: ProductCategory.ELECTRONICS, value: ProductCategory.ELECTRONICS },
-    { label: ProductCategory.FASHION, value: ProductCategory.FASHION },
-    { label: ProductCategory.HOME, value: ProductCategory.HOME },
-    { label: ProductCategory.BOOKS, value: ProductCategory.BOOKS },
-  ];
+  categoryOptions: { label: string; value: number }[] = [];
   formErrorMessages = ValidationMessages;
 
   productId!: number;
@@ -54,23 +46,43 @@ export class EditProductComponent implements OnInit {
 
   @Input() mode: Mode.UPDATE | Mode.CREATE = Mode.UPDATE;
 
-  isLoading = true;
-
   ngOnInit(): void {
     this.productForm = this.fb.nonNullable.group({
       name: ['', [Validators.required]],
-      category: ['', [Validators.required]],
+      categoryId: [null as number | null, [Validators.required]],
       price: [null as number | null, [Validators.required, Validators.min(1)]],
       stock: [null as number | null, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.required]],
     });
 
+    this.loadCategories();
+
     if (this.product) {
       this.productId = this.product.id;
       this.originalProduct = this.product;
 
-      this.productForm.patchValue(this.product);
+      this.productForm.patchValue({
+        name: this.product.name,
+        categoryId: this.product.categoryId,
+        price: this.product.price,
+        stock: this.product.stock,
+        description: this.product.description,
+      });
     }
+  }
+
+  loadCategories(): void {
+    this.productService.getCategories().subscribe({
+      next: (categories) => {
+        this.categoryOptions = categories.map((cat) => ({
+          label: cat.name,
+          value: cat.id,
+        }));
+      },
+      error: (err) => {
+        console.error('Fetch Categories Error:', err);
+      },
+    });
   }
 
   onSubmit(): void {
@@ -84,10 +96,19 @@ export class EditProductComponent implements OnInit {
       return;
     }
 
+    const formValue = this.productForm.getRawValue();
+
     const updatedProduct = {
       ...this.originalProduct,
-      ...this.productForm.value,
+      name: formValue.name,
+      categoryId: formValue.categoryId,
+      price: formValue.price,
+      stock: formValue.stock,
+      description: formValue.description,
       id: this.productId,
+      createdAt: this.originalProduct.createdAt
+        ? formatISODate(new Date(this.originalProduct.createdAt))
+        : formatISODate(new Date()),
     };
 
     this.productService.updateProduct(updatedProduct).subscribe({

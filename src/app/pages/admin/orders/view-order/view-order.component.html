@@ -1,7 +1,9 @@
 <div
   class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
 >
-  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
+  <div
+    class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-6"
+  >
     <app-page-header title="Order Details"></app-page-header>
 
     <div class="space-y-6" *ngIf="order">
@@ -10,7 +12,10 @@
         [value]="order.customerName"
       ></app-input-view>
 
-      <app-input-view label="Product" [value]="order.product"></app-input-view>
+      <app-input-view
+        label="Product"
+        [value]="getProductName(order.productId)"
+      ></app-input-view>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <app-input-view
@@ -19,13 +24,15 @@
         ></app-input-view>
 
         <app-input-view label="Amount">
-          <span>₹ {{ order.amount | number }}</span>
+          <span class="text-gray-900 dark:text-gray-100 font-medium"
+            >₹ {{ order.amount | number }}</span
+          >
         </app-input-view>
 
         <app-input-view label="Status" [value]="order.status"></app-input-view>
       </div>
 
-      <hr class="border-gray-200" />
+      <hr class="border-gray-200 dark:border-gray-700" />
 
       <div class="flex justify-end">
         <app-button

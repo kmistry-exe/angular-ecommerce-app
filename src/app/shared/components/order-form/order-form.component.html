@@ -1,8 +1,10 @@
 <div
-  *ngIf="productOptions?.length"
+  *ngIf="productOptions.length"
   class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
 >
-  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
+  <div
+    class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-6"
+  >
     <app-page-header
       [title]="mode === Mode.UPDATE ? 'Edit Order' : 'Add Order'"
     >
@@ -18,7 +20,7 @@
 
       <app-select
         label="Product"
-        [control]="f['product']"
+        [control]="f['productId']"
         [options]="productOptions"
         [searchable]="true"
       >
@@ -48,7 +50,7 @@
         </app-select>
       </div>
 
-      <hr class="border-gray-200" />
+      <hr class="border-gray-200 dark:border-gray-700" />
 
       <div class="flex justify-end gap-3">
         <app-button

@@ -23,12 +23,37 @@ export class AdminLayoutComponent implements OnInit {
   isMobile = false;
   isMobileMenuOpen = false;
   userEmail: string | null = '';
+  isDarkMode = false;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
     this.checkScreenSize();
+    this.initTheme();
+  }
+
+  initTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    // Default to light if no saved preference
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme();
+  }
+
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
   }
 
   @HostListener('window:resize')

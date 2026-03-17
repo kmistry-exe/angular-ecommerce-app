@@ -1,11 +1,11 @@
 <div
-  class="rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition-shadow"
+  class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm hover:shadow-md transition-shadow"
 >
-  <p class="text-sm text-gray-500">
+  <p class="text-sm text-gray-500 dark:text-gray-400">
     {{ label }}
   </p>
 
-  <p class="mt-2 text-2xl font-semibold">
+  <p class="mt-2 text-2xl font-semibold text-gray-900 dark:text-white">
     {{ prefix ?? "" }}{{ value | number }}
   </p>
 </div>

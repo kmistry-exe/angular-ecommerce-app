@@ -10,11 +10,11 @@ import {
 import { ProductService } from '../../../../core/services/product.service';
 import {
   Mode,
-  ProductCategory,
   ProductStatus,
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { ProductFormComponent } from '../../../../shared/components/product-form/product-form.component';
+import { formatISODate } from '../../../../shared/utils/date.utils';
 
 @Component({
   selector: 'app-add-products',
@@ -27,18 +27,13 @@ export class AddProductsComponent {
 
   productForm!: FormGroup<{
     name: FormControl<string>;
-    category: FormControl<string>;
+    categoryId: FormControl<number | null>;
     price: FormControl<number | null>;
     stock: FormControl<number | null>;
     description: FormControl<string>;
   }>;
 
-  categoryOptions = [
-    { label: ProductCategory.ELECTRONICS, value: ProductCategory.ELECTRONICS },
-    { label: ProductCategory.FASHION, value: ProductCategory.FASHION },
-    { label: ProductCategory.HOME, value: ProductCategory.HOME },
-    { label: ProductCategory.BOOKS, value: ProductCategory.BOOKS },
-  ];
+  categoryOptions: { label: string; value: number }[] = [];
 
   formErrorMessages = ValidationMessages;
 
@@ -54,10 +49,26 @@ export class AddProductsComponent {
   ngOnInit(): void {
     this.productForm = this.fb.nonNullable.group({
       name: ['', [Validators.required]],
-      category: ['', [Validators.required]],
+      categoryId: [null as number | null, [Validators.required]],
       price: [null as number | null, [Validators.required, Validators.min(1)]],
       stock: [null as number | null, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.required]],
+    });
+
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.productService.getCategories().subscribe({
+      next: (categories) => {
+        this.categoryOptions = categories.map((cat) => ({
+          label: cat.name,
+          value: cat.id,
+        }));
+      },
+      error: (err) => {
+        console.error('Fetch Categories Error:', err);
+      },
     });
   }
 
@@ -72,17 +83,18 @@ export class AddProductsComponent {
     const productData = {
       id: Date.now(),
       name: formValue.name,
-      category: formValue.category,
+      categoryId: formValue.categoryId as number,
       price: formValue.price ?? 0,
       stock: formValue.stock ?? 0,
       description: formValue.description,
       status: ProductStatus.ACTIVE,
+      createdAt: formatISODate(new Date()),
     };
 
-    this.productService.addProduct(productData).subscribe({
+    this.productService.addProduct(productData as any).subscribe({
       next: () => {
         this.productForm.reset({
-          category: '',
+          categoryId: null,
           price: null,
           stock: null,
         });

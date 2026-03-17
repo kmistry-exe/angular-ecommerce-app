@@ -5,13 +5,6 @@ export enum ValidationMessages {
   MIN_VALUE = 'Value is below minimum',
 }
 
-export enum ProductCategory {
-  ELECTRONICS = 'Electronics',
-  FASHION = 'Fashion',
-  HOME = 'Home',
-  BOOKS = 'Books',
-}
-
 export enum ProductStatus {
   ACTIVE = 'Active',
   INACTIVE = 'Inactive',
