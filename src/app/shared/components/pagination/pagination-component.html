@@ -1,9 +1,9 @@
 <div class="w-full">
-  <hr class="mt-6 border-gray-200" />
+  <hr class="mt-6 border-gray-200 dark:border-gray-700" />
 
   <div class="flex justify-center items-center gap-2 mt-4">
     <button
-      class="px-3 py-2 rounded-lg text-sm transition hover:bg-indigo-600 hover:text-white disabled:opacity-40"
+      class="px-3 py-2 rounded-lg text-sm transition text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white disabled:opacity-40"
       (click)="prev()"
       [disabled]="currentPage === 1"
     >
@@ -17,14 +17,14 @@
       [ngClass]="
       page === currentPage
         ? 'bg-indigo-600 text-white border-indigo-600'
-        : 'bg-white text-gray-700 hover:bg-indigo-600 hover:text-white'
+        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white'
     "
     >
       {{ page }}
     </button>
 
     <button
-      class="px-3 py-2 rounded-lg text-sm transition hover:bg-indigo-600 hover:text-white disabled:opacity-40"
+      class="px-3 py-2 rounded-lg text-sm transition text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white disabled:opacity-40"
       (click)="next()"
       [disabled]="currentPage === totalPages"
     >

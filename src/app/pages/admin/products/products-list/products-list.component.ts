@@ -47,6 +47,7 @@ export class ProductsListComponent implements OnInit {
   pageSize = 6;
 
   errorMessage: string = '';
+  categories: any[] = [];
 
   constructor(
     private productService: ProductService,
@@ -54,13 +55,33 @@ export class ProductsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
     this.loadProducts();
+  }
+
+  loadCategories(): void {
+    this.productService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (err) => {
+        console.error('Fetch Categories Error:', err);
+      },
+    });
+  }
+
+  getCategoryName(categoryId: number): string {
+    const category = this.categories.find((c) => c.id === categoryId);
+    return category ? category.name : 'Unknown';
   }
 
   loadProducts(): void {
     this.productService.getProducts().subscribe({
       next: (products) => {
-        this.products = products.sort((a, b) => b.id - a.id);
+        this.products = products.sort((a, b) => {
+          const dateSort = b.createdAt.localeCompare(a.createdAt);
+          return dateSort !== 0 ? dateSort : b.id - a.id;
+        });
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -97,7 +118,7 @@ export class ProductsListComponent implements OnInit {
           next: (products) => {
             // Sort and update list
             this.products = products.sort((a, b) => b.id - a.id);
-            
+
             // Adjust current page if the deleted item was the last one on that page
             const totalPages = Math.ceil(this.products.length / this.pageSize);
             if (this.currentPage > totalPages && totalPages > 0) {
@@ -105,13 +126,13 @@ export class ProductsListComponent implements OnInit {
             } else if (this.products.length === 0) {
               this.currentPage = 1;
             }
-            
+
             this.closeDeleteModal();
           },
           error: (err) => {
             console.error('API Error after delete:', err);
             this.closeDeleteModal();
-          }
+          },
         });
       },
       error: (err) => {

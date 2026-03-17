@@ -14,6 +14,7 @@ import { AddOrderComponent } from '../add-order/add-order.component';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
 import { ViewOrderComponent } from '../view-order/view-order.component';
 import { Router } from '@angular/router';
+import { ProductService } from '../../../../core/services/product.service';
 
 @Component({
   selector: 'app-orders-list',
@@ -46,21 +47,43 @@ export class OrdersListComponent implements OnInit {
   pageSize = 6;
 
   errorMessage: string = '';
+  products: any[] = [];
 
   constructor(
     private orderService: OrderService,
+    private productService: ProductService,
     private loadingService: LoadingService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.loadProductsList();
     this.loadOrders();
+  }
+
+  loadProductsList(): void {
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+      },
+      error: (err) => {
+        console.error('Fetch Products Error:', err);
+      },
+    });
+  }
+
+  getProductName(productId: number): string {
+    const product = this.products.find((p) => p.id === productId);
+    return product ? product.name : 'Unknown Product';
   }
 
   loadOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (orders) => {
-        this.orders = orders.sort((a, b) => b.id - a.id);
+        this.orders = orders.sort((a, b) => {
+          const dateSort = b.createdAt.localeCompare(a.createdAt);
+          return dateSort !== 0 ? dateSort : b.id - a.id;
+        });
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -90,7 +113,7 @@ export class OrdersListComponent implements OnInit {
           next: (orders) => {
             // Sort and update list
             this.orders = orders.sort((a, b) => b.id - a.id);
-            
+
             // Adjust current page if the deleted item was the last one on that page
             const totalPages = Math.ceil(this.orders.length / this.pageSize);
             if (this.currentPage > totalPages && totalPages > 0) {
@@ -98,13 +121,13 @@ export class OrdersListComponent implements OnInit {
             } else if (this.orders.length === 0) {
               this.currentPage = 1;
             }
-            
+
             this.closeDeleteModal();
           },
           error: (err) => {
             console.error('API Error after delete:', err);
             this.closeDeleteModal();
-          }
+          },
         });
       },
       error: (err) => {

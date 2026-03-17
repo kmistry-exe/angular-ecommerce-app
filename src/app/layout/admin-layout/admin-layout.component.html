@@ -1,12 +1,18 @@
-<div class="flex flex-col min-h-screen bg-gray-50">
+<div
+  class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+>
   <header
     *ngIf="isMobile"
-    class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-50 shrink-0"
+    class="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 z-50 shrink-0"
   >
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-cart-shopping text-indigo-600 text-xl"></i>
-      <span class="text-lg font-bold text-gray-900 uppercase">
-        Ecommerce CMS
+      <i
+        class="fa-solid fa-cart-shopping text-indigo-600 dark:text-indigo-400 text-xl"
+      ></i>
+      <span
+        class="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-tight"
+      >
+        ECommerce App
       </span>
     </div>
     <app-button
@@ -19,7 +25,7 @@
 
   <div class="flex flex-1" [class.pt-16]="isMobile">
     <aside
-      class="bg-gray-900 text-white flex flex-col z-40 transition-all duration-300"
+      class="bg-gray-900 text-white flex flex-col z-40 transition-all duration-300 border-r border-gray-700 px-4"
       [class.fixed]="true"
       [class.left-0]="true"
       [class.top-0]="true"
@@ -34,11 +40,9 @@
             isMobile ? 'justify-between' : 'justify-center'
           }}"
         >
-          <div>
-            <i
-              class="mx-2 fa-solid fa-cart-shopping text-indigo-400 text-xl"
-            ></i>
-            <span class="text-lg font-bold">Ecommerce CMS</span>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-cart-shopping text-indigo-400 text-xl"></i>
+            <span class="text-lg font-bold tracking-tight">ECommerce App</span>
           </div>
           <div *ngIf="isMobile">
             <button (click)="closeMobileMenu()" class="p-2 text-gray-400">
@@ -60,55 +64,70 @@
 
       <hr class="w-full border-gray-700" />
 
-      <nav class="flex-1 overflow-y-auto p-3 space-y-1">
+      <nav class="flex-1 overflow-y-auto py-4 space-y-1">
         <a
           routerLink="/admin/dashboard"
-          routerLinkActive="bg-indigo-600 font-semibold"
+          routerLinkActive="bg-indigo-600 text-white font-semibold"
           (click)="closeMobileMenu()"
-          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+          class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-gray-400 hover:bg-indigo-600 hover:text-white transition-all"
         >
           <i class="fa-solid fa-hashtag"></i>
           <span>Dashboard</span>
         </a>
         <a
           routerLink="/admin/products"
-          routerLinkActive="bg-indigo-600 font-semibold"
+          routerLinkActive="bg-indigo-600 text-white font-semibold"
           (click)="closeMobileMenu()"
-          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+          class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-gray-400 hover:bg-indigo-600 hover:text-white transition-all"
         >
           <i class="fa-solid fa-box"></i>
           <span>Products</span>
         </a>
         <a
           routerLink="/admin/orders"
-          routerLinkActive="bg-indigo-600 font-semibold"
+          routerLinkActive="bg-indigo-600 text-white font-semibold"
           (click)="closeMobileMenu()"
-          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
+          class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-gray-400 hover:bg-indigo-600 hover:text-white transition-all"
         >
           <i class="fa-solid fa-boxes-packing"></i>
           <span>Orders</span>
         </a>
-        <!-- Coming Soon: Users Module
-        <a
-          routerLink="/admin/users"
-          routerLinkActive="bg-indigo-600 font-semibold"
-          (click)="closeMobileMenu()"
-          class="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-gray-300 hover:bg-indigo-600 transition"
-        >
-          <i class="fa-solid fa-users"></i>
-          <span>Users</span>
-        </a>
-        -->
       </nav>
 
-      <div class="p-4 border-t border-gray-700 text-center">
-        <app-button
-          label="Logout"
-          variant="danger"
-          icon="fa-solid fa-right-from-bracket"
-          class="w-full"
-          (click)="openLogoutConfirm()"
-        />
+      <hr class="border-gray-700" />
+
+      <div class="space-y-3">
+        <button
+          (click)="toggleDarkMode()"
+          class="mt-3 w-full flex items-center justify-between p-3 rounded-lg text-sm font-medium text-gray-400 hover:bg-indigo-600 hover:text-white transition-all"
+        >
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-moon"></i>
+            <span>Dark Mode</span>
+          </div>
+          <div
+            class="w-10 h-5 rounded-full relative transition-colors duration-200"
+            [ngClass]="isDarkMode ? 'bg-indigo-600' : 'bg-gray-700'"
+          >
+            <div
+              class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform duration-200"
+              [class.translate-x-5]="isDarkMode"
+              [class.translate-x-0]="!isDarkMode"
+            ></div>
+          </div>
+        </button>
+
+        <hr class="border-gray-700" />
+
+        <div class="text-center py-4">
+          <app-button
+            label="Logout"
+            variant="danger"
+            icon="fa-solid fa-right-from-bracket"
+            class="w-full block"
+            (click)="openLogoutConfirm()"
+          />
+        </div>
       </div>
     </aside>
 
@@ -122,14 +141,25 @@
     </main>
 
     <footer
-      class="fixed bottom-0 right-0 h-10 bg-white border-t border-gray-200 flex items-center justify-between px-6 z-30 transition-all duration-300"
+      class="fixed bottom-0 right-0 h-10 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 z-30 transition-all duration-300"
       [class.left-64]="!isMobile"
       [class.left-0]="isMobile"
     >
-      <p class="text-xs text-gray-500 font-medium italic">E-commerce CMS</p>
-      <a href="https://github.com/your-repo-link" target="_blank" class="flex items-center gap-2 text-xs text-gray-500 hover:text-indigo-600 transition">
+      <div class="flex items-center gap-2">
+        <i
+          class="fa-solid fa-cart-shopping text-indigo-600 dark:text-indigo-400 text-xs"
+        ></i>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+          ECommerce App
+        </p>
+      </div>
+      <a
+        href="https://github.com/kmistry-exe"
+        target="_blank"
+        class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+      >
         <i class="fa-brands fa-github text-sm"></i>
-        <span>Github Repository</span>
+        <span>kmistry-exe</span>
       </a>
     </footer>
   </div>

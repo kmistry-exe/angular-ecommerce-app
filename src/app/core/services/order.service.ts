@@ -36,9 +36,9 @@ export class OrderService {
 export interface Order {
   id: number;
   customerName: string;
-  product: string;
+  productId: number;
   quantity: number;
   amount: number;
   status: OrderStatus;
-  date: string;
+  createdAt: string;
 }

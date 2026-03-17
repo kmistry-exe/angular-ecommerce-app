@@ -8,7 +8,6 @@ import { InputButtonComponent } from '../../../shared/components/input-button/in
 import { ValidationMessages } from '../../../shared/enums/enum';
 import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
 import { LoadingService } from '../../../core/services/loading.service';
-import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +16,6 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
     ReactiveFormsModule,
     InputButtonComponent,
     InputTextComponent,
-    PageHeaderComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -55,22 +53,40 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.getRawValue();
 
-    const isLoggedIn = this.authService.login(email, password);
-
-    if (isLoggedIn) {
-      this.isSubmitting = false;
-      this.router.navigate(['/admin/dashboard']);
-    } else {
-      this.loginError = 'Invalid email or password';
-      this.isSubmitting = false;
-    }
+    this.authService.login(email, password).subscribe({
+      next: (isLoggedIn) => {
+        if (isLoggedIn) {
+          this.isSubmitting = false;
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.loginError = 'Invalid email or password';
+          this.isSubmitting = false;
+        }
+      },
+      error: () => {
+        this.loginError = 'An error occurred during login';
+        this.isSubmitting = false;
+      },
+    });
   }
 
   ngOnInit(): void {
     this.loadingService.hide();
+    this.initTheme();
 
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/admin/dashboard']);
+    }
+  }
+
+  private initTheme(): void {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
     }
   }
 }

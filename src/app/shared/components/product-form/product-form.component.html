@@ -1,8 +1,12 @@
 <div
   class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
 >
-  <div class="w-full max-w-lg bg-white rounded-xl shadow-xl border p-6">
-    <app-page-header [title]="mode === Mode.UPDATE ? 'Edit Product' : 'Add Product'">
+  <div
+    class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-6"
+  >
+    <app-page-header
+      [title]="mode === Mode.UPDATE ? 'Edit Product' : 'Add Product'"
+    >
     </app-page-header>
 
     <form class="space-y-6" [formGroup]="productForm" (ngSubmit)="onSubmit()">
@@ -17,7 +21,7 @@
 
         <app-select
           label="Category"
-          [control]="f['category']"
+          [control]="f['categoryId']"
           [requiredMessage]="formErrorMessages.REQUIRED"
           [options]="categoryOptions"
         >

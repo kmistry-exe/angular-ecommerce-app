@@ -25,15 +25,16 @@ export class InputButtonComponent {
 
     const variants = {
       primary:
-        'bg-indigo-600 text-white hover:bg-indigo-600 active:scale-[0.97] shadow-sm',
+        'bg-indigo-600 dark:bg-indigo-600 text-white hover:bg-indigo-600 active:scale-[0.97] shadow-sm',
 
       secondary:
-        'bg-gray-200 text-gray-800 hover:bg-gray-300 active:scale-[0.97]',
+        'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-[0.97]',
 
-      danger: 'bg-red-600 text-white hover:bg-red-700 active:scale-[0.97]',
+      danger:
+        'bg-red-600 dark:bg-red-600 text-white hover:bg-red-700 active:scale-[0.97]',
 
       ghost:
-        'bg-transparent text-gray-700 hover:bg-gray-100 active:scale-[0.97]',
+        'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-[0.97]',
     };
 
     return `${base} ${size} ${variants[this.variant]}`;

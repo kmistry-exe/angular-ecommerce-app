@@ -19,7 +19,7 @@ import {
   ValidationMessages,
 } from '../../../../shared/enums/enum';
 import { OrderFormComponent } from '../../../../shared/components/order-form/order-form.component';
-import { formatDate } from '../../../../shared/utils/date.utils';
+import { formatISODate } from '../../../../shared/utils/date.utils';
 
 @Component({
   selector: 'app-add-order',
@@ -31,11 +31,11 @@ export class AddOrderComponent {
 
   orderForm!: FormGroup<{
     customerName: FormControl<string>;
-    product: FormControl<string>;
+    productId: FormControl<number | null>;
     quantity: FormControl<number>;
     amount: FormControl<number>;
     status: FormControl<OrderStatus>;
-    date: FormControl<string>;
+    createdAt: FormControl<string>;
   }>;
 
   formErrorMessages = ValidationMessages;
@@ -47,7 +47,7 @@ export class AddOrderComponent {
 
   products: Product[] = [];
 
-  productOptions: { label: string; value: string }[] = [];
+  productOptions: { label: string; value: number }[] = [];
 
   statusOptions = Object.values(OrderStatus).map((status) => ({
     label: status,
@@ -61,8 +61,8 @@ export class AddOrderComponent {
   ) {}
 
   setupValidators(): void {
-    this.orderForm.controls.product.valueChanges.subscribe((productName) => {
-      this.updateQuantityValidator(productName);
+    this.orderForm.controls.productId.valueChanges.subscribe((productId) => {
+      this.updateQuantityValidator(productId as number);
       this.calculateAmount();
     });
 
@@ -71,8 +71,8 @@ export class AddOrderComponent {
     });
   }
 
-  updateQuantityValidator(productName: string): void {
-    const selectedProduct = this.products.find((p) => p.name === productName);
+  updateQuantityValidator(productId: number): void {
+    const selectedProduct = this.products.find((p) => p.id === productId);
     const quantityControl = this.orderForm.controls.quantity;
 
     if (selectedProduct) {
@@ -90,14 +90,11 @@ export class AddOrderComponent {
   ngOnInit(): void {
     this.orderForm = this.fb.nonNullable.group({
       customerName: ['', Validators.required],
-      product: ['', Validators.required],
+      productId: [null as number | null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       amount: [{ value: 0, disabled: true }],
-      status:
-        this.mode === Mode.CREATE
-          ? [{ value: OrderStatus.PENDING, disabled: true }]
-          : [OrderStatus.PENDING],
-      date: [formatDate(new Date())],
+      status: [OrderStatus.PENDING],
+      createdAt: [formatISODate(new Date())],
     });
 
     this.loadProducts();
@@ -106,28 +103,28 @@ export class AddOrderComponent {
 
   loadProducts(): void {
     this.productService.getProducts().subscribe((products) => {
-      const currentProduct = this.orderForm.controls.product.value;
+      const currentProductId = this.orderForm.controls.productId.value;
       this.products = products.filter(
         (p) =>
           p.status === ProductStatus.ACTIVE ||
-          (currentProduct && p.name === currentProduct),
+          (currentProductId && p.id === currentProductId),
       );
 
       this.productOptions = this.products.map((p) => ({
         label: p.name,
-        value: p.name,
+        value: p.id,
       }));
 
-      this.updateQuantityValidator(currentProduct);
+      this.updateQuantityValidator(currentProductId as number);
       this.calculateAmount();
     });
   }
 
   calculateAmount(): void {
-    const product = this.orderForm.controls.product.value;
+    const productId = this.orderForm.controls.productId.value;
     const quantity = this.orderForm.controls.quantity.value;
 
-    const selectedProduct = this.products.find((p) => p.name === product);
+    const selectedProduct = this.products.find((p) => p.id === productId);
 
     if (selectedProduct) {
       let effectiveQuantity = quantity;
@@ -151,18 +148,23 @@ export class AddOrderComponent {
 
     const orderData = {
       id: Date.now(),
-      ...formValue,
+      customerName: formValue.customerName,
+      productId: formValue.productId as number,
+      quantity: formValue.quantity,
+      amount: formValue.amount,
+      status: formValue.status,
+      createdAt: formValue.createdAt,
     };
 
-    this.orderService.addOrder(orderData).subscribe({
+    this.orderService.addOrder(orderData as any).subscribe({
       next: () => {
         this.orderForm.reset({
           customerName: '',
-          product: '',
+          productId: null,
           quantity: 1,
           amount: 0,
           status: OrderStatus.PENDING,
-          date: formatDate(new Date()),
+          createdAt: formatISODate(new Date()),
         });
 
         this.save.emit();

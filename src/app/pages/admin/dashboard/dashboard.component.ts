@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
   recentOrdersColumns: Column[] = [
     { key: 'id', label: 'Order ID' },
     { key: 'customerName', label: 'Customer' },
-    { key: 'date', label: 'Date', type: ColumnType.DATE },
+    { key: 'createdAt', label: 'Date', type: ColumnType.DATE },
     {
       key: 'amount',
       label: 'Amount',
@@ -99,7 +99,10 @@ export class DashboardComponent implements OnInit {
           { label: 'Total Users', value: 1250 },
         ];
 
-        this.recentOrders = [...orders].sort((a, b) => b.id - a.id);
+        this.recentOrders = [...orders].sort((a, b) => {
+          const dateSort = b.createdAt.localeCompare(a.createdAt);
+          return dateSort !== 0 ? dateSort : b.id - a.id;
+        });
       },
       error: () => {
         this.errorMessage = 'Failed to load dashboard analytics';

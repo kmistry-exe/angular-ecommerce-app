@@ -8,6 +8,8 @@ import { environment } from '../../../environments/environment';
 })
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`;
+  private categoriesUrl = `${environment.apiUrl}/categories`;
+
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
@@ -16,6 +18,10 @@ export class ProductService {
 
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.categoriesUrl);
   }
 
   addProduct(product: Product): Observable<Product> {
@@ -34,9 +40,16 @@ export class ProductService {
 export interface Product {
   id: number;
   name: string;
-  category: string;
+  categoryId: number;
   price: number;
   stock: number;
   description: string;
   status: string;
+  createdAt: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  createdAt: string;
 }

@@ -1,9 +1,31 @@
-<section class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-  <div class="w-full max-w-md bg-white rounded-xl shadow-sm border p-6">
-    <app-page-header
-      title="Admin Login"
-      subtitle="Sign in to access the admin panel"
-    ></app-page-header>
+<section
+  class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 transition-colors duration-300"
+>
+  <div
+    class="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-8"
+  >
+    <div class="flex flex-col items-center mb-6">
+      <div
+        class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4 shadow-lg shadow-indigo-200 dark:shadow-none"
+      >
+        <i class="fa-solid fa-cart-shopping text-white text-2xl"></i>
+      </div>
+      <h2
+        class="text-xl font-bold text-gray-900 dark:text-white tracking-tight"
+      >
+        ECommerce App
+      </h2>
+    </div>
+
+    <hr class="w-full border-gray-200 dark:border-gray-700 my-4" />
+
+    <p
+      class="text-lg text-gray-500 dark:text-gray-400 mt-1 leading-relaxed text-center"
+    >
+      Sign in to access the admin panel
+    </p>
+
+    <hr class="w-full border-gray-200 dark:border-gray-700 mt-4 mb-6" />
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <app-text

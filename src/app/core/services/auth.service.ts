@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, of, catchError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoadingService } from './loading.service';
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password?: string;
+  role: string;
+  createdAt: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -10,21 +21,30 @@ export class AuthService {
   private readonly TOKEN_KEY = 'admin_token';
   private readonly STORAGE_KEY = 'admin_logged_in';
   private readonly USER_EMAIL_KEY = 'admin_user_email';
+  private apiUrl = `${environment.apiUrl}/users`;
 
-  constructor(private router: Router, private loadingService: LoadingService) {}
+  constructor(
+    private router: Router,
+    private loadingService: LoadingService,
+    private http: HttpClient,
+  ) {}
 
-  login(email: string, password: string): boolean {
-    const validEmail = environment.adminAuth.email;
-    const validPassword = environment.adminAuth.password;
-
-    if (email === validEmail && password === validPassword) {
-      localStorage.setItem(this.STORAGE_KEY, 'true');
-      localStorage.setItem(this.TOKEN_KEY, 'mock-admin-token');
-      localStorage.setItem(this.USER_EMAIL_KEY, email);
-      return true;
-    }
-
-    return false;
+  login(email: string, password: string): Observable<boolean> {
+    return this.http
+      .get<User[]>(`${this.apiUrl}?email=${email}&password=${password}`)
+      .pipe(
+        map((users) => {
+          if (users.length > 0) {
+            const user = users[0];
+            localStorage.setItem(this.STORAGE_KEY, 'true');
+            localStorage.setItem(this.TOKEN_KEY, 'mock-admin-token');
+            localStorage.setItem(this.USER_EMAIL_KEY, user.email);
+            return true;
+          }
+          return false;
+        }),
+        catchError(() => of(false)),
+      );
   }
 
   logout(): void {
@@ -40,11 +60,7 @@ export class AuthService {
   }
 
   getUserEmail(): string | null {
-    const email = localStorage.getItem(this.USER_EMAIL_KEY);
-    if (!email && this.isAuthenticated()) {
-      return environment.adminAuth.email;
-    }
-    return email;
+    return localStorage.getItem(this.USER_EMAIL_KEY);
   }
 
   getToken(): string | null {

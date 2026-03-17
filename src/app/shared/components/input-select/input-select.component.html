@@ -1,18 +1,25 @@
 <div class="w-full mb-2 select-wrapper relative">
-  <label *ngIf="label" class="block text-sm font-medium mb-2">
+  <label
+    *ngIf="label"
+    class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+  >
     {{ label }}
   </label>
 
   <select
     *ngIf="!searchable"
     [formControl]="control"
-    class="w-full h-12 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+    class="w-full h-12 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:text-gray-500 dark:disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
   >
     <option value="" disabled *ngIf="placeholder">
       {{ placeholder }}
     </option>
 
-    <option *ngFor="let option of options" [value]="option.value">
+    <option
+      *ngFor="let option of options"
+      [value]="option.value"
+      class="dark:bg-gray-800"
+    >
       {{ option.label }}
     </option>
   </select>
@@ -20,10 +27,10 @@
   <div *ngIf="searchable" class="relative">
     <input
       type="text"
-      class="w-full h-12 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      class="w-full h-12 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:text-gray-500 dark:disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
       [placeholder]="placeholder || 'Select product'"
       name="searchTextInput"
-      [ngModelOptions]="{standalone: true}"
+      [ngModelOptions]="{ standalone: true }"
       [(ngModel)]="searchText"
       (focus)="openDropdown()"
       (input)="filterOptions()"
@@ -33,19 +40,19 @@
 
     <div
       *ngIf="dropdownOpen"
-      class="absolute z-20 mt-1 w-full bg-white border rounded-lg shadow max-h-48 overflow-y-auto"
+      class="absolute z-20 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto"
     >
       <div
         *ngFor="let option of filteredOptions"
         (click)="selectOption(option)"
-        class="px-3 py-2 cursor-pointer hover:bg-indigo-50"
+        class="px-3 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-gray-900 dark:text-gray-100 transition-colors"
       >
         {{ option.label }}
       </div>
 
       <div
         *ngIf="filteredOptions.length === 0"
-        class="px-3 py-2 text-sm text-gray-500"
+        class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400"
       >
         No results found
       </div>
