@@ -1,7 +1,7 @@
 # ECommerce CMS (Admin Panel)
 
 A modern **E-commerce Dashboard** built with **Angular, Reactive Forms, and JSON Server**.
-This project demonstrates a scalable CMS architecture for managing products, orders, and users with reusable components and modular design.
+This project demonstrates a scalable CMS architecture for managing products and orders with reusable components and modular design.
 
 ## Live Demo
 
@@ -14,10 +14,10 @@ _User module with authentication, cart, and customer order history is planned an
 Add screenshots of key sections of the application.
 
 * Login
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/120ba432-6052-4a7c-b1d1-74f69e9d7a29" />
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/98f48a75-304a-4802-bc1e-3260c79a2916" />
 
 * Dashboard
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/19715977-0e56-423a-842a-e88a16a44b3b" />
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/776473ab-1c01-4308-b763-0d9c44f2d6a7" />
 
 * Products Management
 <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/64a306e0-b76c-4e8c-ba57-b6452eb85a15" />
