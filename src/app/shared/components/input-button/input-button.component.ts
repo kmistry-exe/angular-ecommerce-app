@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -14,6 +14,22 @@ export class InputButtonComponent {
   @Input() iconOnly: boolean = false;
   @Input() disabled: boolean = false;
   @Input() type: 'button' | 'submit' = 'button';
+
+  @HostBinding('style.pointer-events') get pointerEvents() {
+    return this.disabled ? 'none' : 'auto';
+  }
+
+  @HostBinding('style.cursor') get cursor() {
+    return this.disabled ? 'not-allowed' : 'pointer';
+  }
+
+  @HostListener('click', ['$event'])
+  onClick(event: Event) {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }
 
   get variantClasses(): string {
     const base =

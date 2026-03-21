@@ -67,7 +67,7 @@
           [label]="mode === Mode.UPDATE ? 'Update' : 'Save'"
           icon="fa-bookmark"
           type="submit"
-          [disabled]="orderForm.invalid"
+          [disabled]="orderForm.invalid || isDemoMode"
         >
         </app-button>
       </div>

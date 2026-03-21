@@ -15,6 +15,8 @@ import { CardComponent } from '../../../../shared/components/card/card.component
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination-component';
 import { LoadingService } from '../../../../core/services/loading.service';
 import { ProductStatus } from '../../../../shared/enums/enum';
+import { AuthService } from '../../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-products-list',
@@ -48,13 +50,17 @@ export class ProductsListComponent implements OnInit {
 
   errorMessage: string = '';
   categories: any[] = [];
+  isDemoMode = false;
+
 
   constructor(
     private productService: ProductService,
     private loadingService: LoadingService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.isDemoMode = this.authService.isDemoMode();
     this.loadCategories();
     this.loadProducts();
   }

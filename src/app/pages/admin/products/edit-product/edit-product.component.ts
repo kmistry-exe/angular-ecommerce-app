@@ -101,7 +101,7 @@ export class EditProductComponent implements OnInit {
     const updatedProduct = {
       ...this.originalProduct,
       name: formValue.name,
-      categoryId: formValue.categoryId,
+      categoryId: Number(formValue.categoryId),
       price: formValue.price,
       stock: formValue.stock,
       description: formValue.description,

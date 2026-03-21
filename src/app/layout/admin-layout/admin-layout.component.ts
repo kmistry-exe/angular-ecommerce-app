@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { filter } from 'rxjs';
 import { InputButtonComponent } from '../../shared/components/input-button/input-button.component';
 import { ConfirmationModalComponent } from '../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CommonModule } from '@angular/common';
@@ -20,17 +21,47 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminLayoutComponent implements OnInit {
   showLogoutConfirm = false;
+  showLoginConfirm = false;
   isMobile = false;
   isMobileMenuOpen = false;
   userEmail: string | null = '';
   isDarkMode = false;
+  isDemoMode = false;
+  isDashboardOrList = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkRoute();
+    });
+  }
 
   ngOnInit(): void {
+    this.isDemoMode = this.authService.isDemoMode();
     this.userEmail = this.authService.getUserEmail();
     this.checkScreenSize();
     this.initTheme();
+
+    if (!this.isDemoMode) {
+      this.authService.startIdleTimer();
+    }
+    this.checkRoute();
+  }
+
+  private checkRoute(): void {
+    const dashboardOrLists = ['/admin/dashboard', '/admin/products', '/admin/orders'];
+    this.isDashboardOrList = dashboardOrLists.includes(this.router.url);
+  }
+
+  @HostListener('window:mousemove')
+  @HostListener('window:keydown')
+  @HostListener('window:click')
+  @HostListener('window:scroll')
+  resetTimer(): void {
+    if (!this.isDemoMode) {
+      this.authService.resetIdleTimer();
+    }
   }
 
   initTheme(): void {
@@ -94,5 +125,18 @@ export class AdminLayoutComponent implements OnInit {
 
   cancelLogout(): void {
     this.showLogoutConfirm = false;
+  }
+
+  openLoginConfirm(): void {
+    this.showLoginConfirm = true;
+  }
+
+  confirmLogin(): void {
+    this.showLoginConfirm = false;
+    this.authService.logout(); // This will navigate to /login
+  }
+
+  cancelLogin(): void {
+    this.showLoginConfirm = false;
   }
 }

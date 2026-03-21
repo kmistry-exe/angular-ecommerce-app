@@ -79,6 +79,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  continueAsGuest(): void {
+    this.router.navigate(['/admin/dashboard']);
+  }
+
   private initTheme(): void {
     const theme = localStorage.getItem('theme');
     if (theme === 'dark') {

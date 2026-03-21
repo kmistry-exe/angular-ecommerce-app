@@ -15,6 +15,8 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
 import { ViewOrderComponent } from '../view-order/view-order.component';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../../core/services/product.service';
+import { AuthService } from '../../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-orders-list',
@@ -48,15 +50,19 @@ export class OrdersListComponent implements OnInit {
 
   errorMessage: string = '';
   products: any[] = [];
+  isDemoMode = false;
+
 
   constructor(
     private orderService: OrderService,
     private productService: ProductService,
     private loadingService: LoadingService,
     private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.isDemoMode = this.authService.isDemoMode();
     this.loadProductsList();
     this.loadOrders();
   }
