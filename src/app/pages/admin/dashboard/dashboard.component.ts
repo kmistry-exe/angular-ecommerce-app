@@ -20,6 +20,7 @@ import {
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { ViewOrderComponent } from '../orders/view-order/view-order.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,7 @@ export class DashboardComponent implements OnInit {
   errorMessage: string = '';
   showViewModal = false;
   selectedOrder: Order | null = null;
+  isDemoMode = false;
   stats: { label: string; value: number; prefix?: string }[] = [
     { label: 'Total Products', value: 0 },
     { label: 'Total Orders', value: 0 },
@@ -74,9 +76,11 @@ export class DashboardComponent implements OnInit {
     private productService: ProductService,
     private orderService: OrderService,
     private router: Router,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
+    this.isDemoMode = this.authService.isDemoMode();
     this.loadAnalytics();
   }
 

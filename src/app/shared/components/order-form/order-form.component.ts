@@ -7,6 +7,8 @@ import { InputSelectComponent } from '../input-select/input-select.component';
 import { InputNumberComponent } from '../input-number/input-number.component';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { Mode } from '../../enums/enum';
+import { AuthService } from '../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-order-form',
@@ -31,6 +33,11 @@ export class OrderFormComponent {
 
   @Input() mode: Mode.CREATE | Mode.UPDATE = Mode.CREATE;
   @Input() disabled: boolean = false;
+  isDemoMode = false;
+
+  constructor(private authService: AuthService) {
+    this.isDemoMode = this.authService.isDemoMode();
+  }
 
   @Output() submitForm = new EventEmitter<void>();
   @Output() cancelForm = new EventEmitter<void>();

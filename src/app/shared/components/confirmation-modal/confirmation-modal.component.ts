@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
+import { AuthService } from '../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -22,6 +24,9 @@ export class ConfirmationModalComponent {
 
   @Input() cancelIcon?: string = 'fa-xmark';
   @Input() confirmIcon?: string = 'fa-check';
+  @Input() isConfirmDisabled = false;
+
+  constructor() {}
 
   onConfirm() {
     this.confirm.emit();

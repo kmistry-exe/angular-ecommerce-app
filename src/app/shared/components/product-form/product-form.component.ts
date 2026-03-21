@@ -8,6 +8,8 @@ import { InputTextAreaComponent } from '../input-textarea/input-textarea.compone
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 import { Mode } from '../../enums/enum';
+import { AuthService } from '../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-product-form',
@@ -31,6 +33,11 @@ export class ProductFormComponent {
   @Input() formErrorMessages: any;
 
   @Input() mode: Mode.CREATE | Mode.UPDATE = Mode.CREATE;
+  isDemoMode = false;
+
+  constructor(private authService: AuthService) {
+    this.isDemoMode = this.authService.isDemoMode();
+  }
 
   @Output() submitForm = new EventEmitter<void>();
   @Output() cancelForm = new EventEmitter<void>();

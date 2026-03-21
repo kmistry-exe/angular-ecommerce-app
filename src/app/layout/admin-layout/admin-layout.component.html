@@ -55,7 +55,9 @@
       <hr class="w-full border-gray-700" />
 
       <div class="my-3 text-center">
-        <span class="text-xs text-gray-100"> Logged in as </span>
+        <span class="text-xs text-gray-100">
+          {{ isDemoMode ? "Demo Mode" : "Logged in as" }}
+        </span>
         <br />
         <span class="text-md text-indigo-600">
           {{ userEmail }}
@@ -121,11 +123,15 @@
 
         <div class="text-center py-4">
           <app-button
-            label="Logout"
-            variant="danger"
-            icon="fa-solid fa-right-from-bracket"
+            [label]="isDemoMode ? 'Login' : 'Logout'"
+            [variant]="isDemoMode ? 'primary' : 'danger'"
+            [icon]="
+              isDemoMode
+                ? 'fa-solid fa-right-to-bracket'
+                : 'fa-solid fa-right-from-bracket'
+            "
             class="w-full block"
-            (click)="openLogoutConfirm()"
+            (click)="isDemoMode ? openLoginConfirm() : openLogoutConfirm()"
           />
         </div>
       </div>
@@ -136,6 +142,23 @@
       [class.ml-64]="!isMobile"
     >
       <div class="max-w-7xl mx-auto">
+        <div
+          *ngIf="isDemoMode && isDashboardOrList"
+          class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-4 mb-6 shadow-sm"
+        >
+          <div class="flex items-center gap-3">
+            <i
+              class="fa-solid fa-circle-info text-indigo-600 dark:text-indigo-400"
+            ></i>
+            <p class="text-sm text-indigo-800 dark:text-indigo-300">
+              <span class="font-semibold text-indigo-600 dark:text-indigo-400"
+                >Demo Mode Active:</span
+              >
+              Explore all modules freely. Administrative actions (Create,
+              Update, Delete) are disabled.
+            </p>
+          </div>
+        </div>
         <router-outlet></router-outlet>
       </div>
     </main>
@@ -170,5 +193,15 @@
     message="Are you sure you want to logout?"
     (confirm)="confirmLogout()"
     (cancel)="cancelLogout()"
+  />
+
+  <app-confirmation-modal
+    *ngIf="showLoginConfirm"
+    title="Admin Login"
+    message="Are you sure you want to go to the login page?"
+    confirmText="Login"
+    confirmIcon="fa-right-to-bracket"
+    (confirm)="confirmLogin()"
+    (cancel)="cancelLogin()"
   />
 </div>

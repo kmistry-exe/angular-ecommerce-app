@@ -83,7 +83,7 @@ export class AddProductsComponent {
     const productData = {
       id: Date.now(),
       name: formValue.name,
-      categoryId: formValue.categoryId as number,
+      categoryId: Number(formValue.categoryId),
       price: formValue.price ?? 0,
       stock: formValue.stock ?? 0,
       description: formValue.description,

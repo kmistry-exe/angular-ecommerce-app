@@ -22,7 +22,7 @@
     <p
       class="text-lg text-gray-500 dark:text-gray-400 mt-1 leading-relaxed text-center"
     >
-      Sign in to access the admin panel
+      Sign in or explore Demo Mode
     </p>
 
     <hr class="w-full border-gray-200 dark:border-gray-700 mt-4 mb-6" />
@@ -48,7 +48,15 @@
         {{ loginError }}
       </div>
 
-      <div class="text-right">
+      <div class="flex justify-between items-center mt-6">
+        <button
+          type="button"
+          (click)="continueAsGuest()"
+          [disabled]="isSubmitting"
+          class="text-sm cursor-pointer font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+        >
+          Explore Demo Mode &rarr;
+        </button>
         <app-button
           variant="primary"
           type="submit"

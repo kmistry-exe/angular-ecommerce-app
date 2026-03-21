@@ -172,7 +172,7 @@ export class EditOrderComponent implements OnInit {
     const updatedOrder = {
       ...this.originalOrder,
       customerName: formValue.customerName,
-      productId: formValue.productId,
+      productId: Number(formValue.productId),
       quantity: formValue.quantity,
       amount: formValue.amount,
       status: formValue.status,

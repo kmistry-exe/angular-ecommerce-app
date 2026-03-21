@@ -93,7 +93,7 @@ export class AddOrderComponent {
       productId: [null as number | null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       amount: [{ value: 0, disabled: true }],
-      status: [OrderStatus.PENDING],
+      status: [{ value: OrderStatus.PENDING, disabled: true }],
       createdAt: [formatISODate(new Date())],
     });
 
@@ -149,7 +149,7 @@ export class AddOrderComponent {
     const orderData = {
       id: Date.now(),
       customerName: formValue.customerName,
-      productId: formValue.productId as number,
+      productId: Number(formValue.productId),
       quantity: formValue.quantity,
       amount: formValue.amount,
       status: formValue.status,
