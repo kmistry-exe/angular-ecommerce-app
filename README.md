@@ -13,23 +13,25 @@ _User module with authentication, cart, and customer order history is planned an
 
 Add screenshots of key sections of the application.
 
-* Dashboard Overview
-<img width="1919" height="1090" alt="image" src="https://github.com/user-attachments/assets/0e35e18d-511b-4a49-894b-b85265cc5232" />
+* Login
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/120ba432-6052-4a7c-b1d1-74f69e9d7a29" />
 
+* Dashboard
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/19715977-0e56-423a-842a-e88a16a44b3b" />
 
 * Products Management
-<img width="1919" height="1088" alt="image" src="https://github.com/user-attachments/assets/907c0ce8-e863-4e5d-943b-b070292c5a96" />
-
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/64a306e0-b76c-4e8c-ba57-b6452eb85a15" />
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/065fa9ea-f42f-4d80-86e4-68940068a6c7" />
 
 * Orders Module
-<img width="1919" height="1091" alt="image" src="https://github.com/user-attachments/assets/657c3cf1-916c-4494-86db-6924953c8c22" />
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/2489a8f8-6e3c-47b4-8040-b6924b9774bc" />
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/a787989a-e718-43fa-86f7-d9e8000c537f" />
 
+* Dark Mode
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/a4da0c53-94d5-4849-848f-dba583c500c3" />
 
-* Dark Mode - Dashboard and Forms
-<img width="1919" height="1091" alt="image" src="https://github.com/user-attachments/assets/eff2b68a-b8cf-4d05-b995-9ce9cf43426d" />
-<img width="1919" height="1091" alt="image" src="https://github.com/user-attachments/assets/895480b9-6cb3-4692-beff-39f13a86feab" />
-<img width="1919" height="1091" alt="image" src="https://github.com/user-attachments/assets/7288549f-3c0f-4362-b9a9-8661fb2de641" />
-
+* Demo Mode
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/1680dad5-42cb-4cce-8048-bbb12815eba4" />
 
 ## Features
 
@@ -44,6 +46,16 @@ Add screenshots of key sections of the application.
 * API layer using Angular HttpClient
 * JSON Server mock backend
 
+## Demo Mode
+
+The application includes a **Demo Mode** enabled by default for all users.
+*   **Explore**: Navigate all modules and view details without logging in.
+*   **Restricted Actions**: Create, Update, and Delete actions are disabled in Demo Mode. Hovering over restricted buttons will display a message.
+*   **Admin Access**: Click the **Login** button in the sidebar to enter Admin Mode.
+
+> [!NOTE]
+> **Admin Session Timeout**: Admin sessions will automatically expire after **30 minutes of inactivity**. Any user activity (mouse movement, typing, clicking) will reset this timer.
+
 ## Tech Stack
 
 * Angular (Standalone Components)
@@ -52,18 +64,21 @@ Add screenshots of key sections of the application.
 * Tailwind CSS
 * JSON Server (mock API)
 
+## Admin Credentials
+
+To test full CRUD functionality in the Live Demo or locally, use:
+
+| Email | Password |
+| :--- | :--- |
+| `admin@angular.com` | `admin@Angular123` |
+
+
 ## Running the Project
 
 Install dependencies:
 
 ```
 npm install
-```
-
-Start JSON Server:
-
-```
-npm run server
 ```
 
 Run Angular app:
